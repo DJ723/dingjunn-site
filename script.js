@@ -54,13 +54,14 @@
   var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links [data-section]"));
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var isAnimating = false;
-  var gestureLocked = false;
   var current = 0;
   var wheelAcc = 0;
   var wheelReset = 0;
   var animTimer = 0;
+  var coolUntil = 0;
   var touchStartY = 0;
   var touchStartX = 0;
+  var lastPageAt = 0;
 
   function sectionIndex(id) {
     for (var i = 0; i < slides.length; i++) {
@@ -73,12 +74,23 @@
     return slides[index] ? slides[index].querySelector(".slide-inner") : null;
   }
 
-  function innerCanScroll(index, direction) {
+  function innerCanScroll(index, direction, event) {
     var inner = innerEl(index);
+    if (event && event.target) {
+      var node = event.target;
+      inner = null;
+      while (node && node !== slider) {
+        if (node.classList && node.classList.contains("slide-inner")) {
+          inner = node;
+          break;
+        }
+        node = node.parentNode;
+      }
+    }
     if (!inner) return false;
-    if (inner.scrollHeight <= inner.clientHeight + 2) return false;
-    if (direction > 0) return inner.scrollTop + inner.clientHeight < inner.scrollHeight - 2;
-    return inner.scrollTop > 2;
+    if (inner.scrollHeight <= inner.clientHeight + 8) return false;
+    if (direction > 0) return inner.scrollTop + inner.clientHeight < inner.scrollHeight - 8;
+    return inner.scrollTop > 8;
   }
 
   function setActive(index) {
@@ -119,18 +131,20 @@
 
   function goTo(index, instant) {
     var next = Math.max(0, Math.min(slides.length - 1, index));
+    wheelAcc = 0;
+    lastPageAt = Date.now();
+    coolUntil = lastPageAt + 420;
+    window.clearTimeout(wheelReset);
+    wheelReset = window.setTimeout(function () {
+      wheelAcc = 0;
+    }, 420);
     if (next === current && !instant) return;
 
     setActive(next);
-    wheelAcc = 0;
-    gestureLocked = true;
     paint(current, instant);
 
     if (instant || reduceMotion) {
       isAnimating = false;
-      window.setTimeout(function () {
-        gestureLocked = false;
-      }, 180);
       return;
     }
 
@@ -144,37 +158,35 @@
   track.addEventListener("transitionend", function (event) {
     if (event.target !== track || event.propertyName !== "transform") return;
     isAnimating = false;
-    wheelAcc = 0;
   });
 
-  slider.addEventListener(
+  window.addEventListener(
     "wheel",
     function (event) {
+      if (event.ctrlKey || event.metaKey) return;
+
       var delta = event.deltaY;
       if (event.deltaMode === 1) delta *= 16;
       if (event.deltaMode === 2) delta *= slideHeight();
+      if (!delta) return;
 
-      if (innerCanScroll(current, delta)) return;
+      if (innerCanScroll(current, delta, event)) return;
 
       event.preventDefault();
-      window.clearTimeout(wheelReset);
-      wheelReset = window.setTimeout(function () {
-        wheelAcc = 0;
-        if (!isAnimating) gestureLocked = false;
-      }, 240);
+      if (Date.now() < coolUntil) return;
 
-      if (isAnimating || gestureLocked) return;
+      if (Math.abs(delta) < 10) return;
 
       if (reduceMotion) {
-        if (Math.abs(delta) > 20) goTo(current + (delta > 0 ? 1 : -1), true);
+        goTo(current + (delta > 0 ? 1 : -1), true);
         return;
       }
 
       wheelAcc += delta;
-      if (Math.abs(wheelAcc) < 42) return;
+      if (Math.abs(wheelAcc) < 36) return;
       goTo(current + (wheelAcc > 0 ? 1 : -1));
     },
-    { passive: false }
+    { passive: false, capture: true }
   );
 
   slider.addEventListener(
@@ -192,7 +204,7 @@
       var dy = touchStartY - event.touches[0].clientY;
       var dx = Math.abs(event.touches[0].clientX - touchStartX);
       if (dx > Math.abs(dy)) return;
-      if (innerCanScroll(current, dy)) return;
+      if (innerCanScroll(current, dy, event)) return;
       event.preventDefault();
     },
     { passive: false }
@@ -203,8 +215,9 @@
     function (event) {
       var dy = touchStartY - event.changedTouches[0].clientY;
       var dx = Math.abs(event.changedTouches[0].clientX - touchStartX);
-      if (dx > Math.abs(dy) || Math.abs(dy) < 46) return;
-      if (innerCanScroll(current, dy)) return;
+      if (dx > Math.abs(dy) || Math.abs(dy) < 48) return;
+      if (innerCanScroll(current, dy, event)) return;
+      if (Date.now() - lastPageAt < 280) return;
       goTo(current + (dy > 0 ? 1 : -1));
     },
     { passive: true }
