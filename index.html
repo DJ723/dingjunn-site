@@ -7,72 +7,180 @@
   <title>Dingjun</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="is-slider">
   <div class="cosmos" aria-hidden="true">
-  <div class="nebula nebula-a" data-depth="0.08"></div>
-  <div class="nebula nebula-b" data-depth="0.14"></div>
-  <div class="stars stars-a" data-depth="0.22"></div>
-  <div class="stars stars-b" data-depth="0.34"></div>
-  <div class="stars stars-c" data-depth="0.48"></div>
-  <div class="meteor-shower">
-  <span class="shoot shoot-1"></span>
-  <span class="shoot shoot-2"></span>
-  <span class="shoot shoot-3"></span>
-  <span class="shoot shoot-4"></span>
-  <span class="shoot shoot-5"></span>
-  <span class="shoot shoot-6"></span>
-  <span class="shoot shoot-7"></span>
-  <span class="shoot shoot-8"></span>
-  <span class="shoot shoot-9"></span>
-  <span class="shoot shoot-10"></span>
-  <span class="shoot shoot-11"></span>
-  <span class="shoot shoot-12"></span>
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span>
+      <span class="shoot shoot-2"></span>
+      <span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span>
+      <span class="shoot shoot-5"></span>
+      <span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span>
+      <span class="shoot shoot-8"></span>
+      <span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span>
+      <span class="shoot shoot-11"></span>
+      <span class="shoot shoot-12"></span>
+    </div>
   </div>
-</div>
 
-  <header class="nav">
-    <a class="nav-brand" href="index.html">Dingjun</a>
+  <header class="nav nav-fixed">
+    <a class="nav-brand" href="#home">Dingjun</a>
     <nav class="nav-links" aria-label="主导航">
-      <a href="projects.html">项目</a>
-      <a href="writing.html">文章</a>
-      <a href="thoughts.html">思考</a>
-      <a href="about.html">关于</a>
+      <a href="#projects" data-section="projects">项目</a>
+      <a href="#writing" data-section="writing">文章</a>
+      <a href="#thoughts" data-section="thoughts">思考</a>
+      <a href="#about" data-section="about">关于</a>
     </nav>
   </header>
 
-  <main class="hero">
-    <p class="eyebrow">dingjunn.com</p>
-    <h1 class="name">Dingjun</h1>
-    <p class="lede">项目、文字，和一些想清楚的事。</p>
-    <div class="cta-row">
-      <a class="btn btn-solid" href="projects.html">看项目</a>
-      <a class="btn btn-ghost" href="writing.html">读文章</a>
-      <a class="btn btn-ghost" href="thoughts.html">读思考</a>
+  <nav class="slide-dots" aria-label="页面切换">
+    <button type="button" class="dot is-active" data-target="home" aria-label="首页"></button>
+    <button type="button" class="dot" data-target="projects" aria-label="项目"></button>
+    <button type="button" class="dot" data-target="writing" aria-label="文章"></button>
+    <button type="button" class="dot" data-target="thoughts" aria-label="思考"></button>
+    <button type="button" class="dot" data-target="about" aria-label="关于"></button>
+  </nav>
+
+  <div class="slider" id="slider">
+    <div class="slider-track" id="slider-track">
+    <section class="slide" id="home" data-section="home">
+      <div class="slide-inner hero-slide">
+        <p class="eyebrow">dingjunn.com</p>
+        <h1 class="name">Dingjun</h1>
+        <p class="lede">项目、文字，和一些想清楚的事。</p>
+        <div class="cta-row">
+          <a class="btn btn-solid" href="#projects">看项目</a>
+          <a class="btn btn-ghost" href="#writing">读文章</a>
+          <a class="btn btn-ghost" href="#thoughts">读思考</a>
+        </div>
+        <p class="slide-hint">向下滑动，一屏一屏看</p>
+      </div>
+    </section>
+
+    <section class="slide" id="projects" data-section="projects">
+      <div class="slide-inner">
+        <header class="page-head">
+          <p class="eyebrow">Projects</p>
+          <h1>项目</h1>
+          <p class="page-desc">把做过的事说清楚：解决了什么、怎么做的、结果如何。</p>
+        </header>
+        <div class="list">
+          <article class="list-item">
+            <div class="list-meta">
+              <span>2026</span>
+              <span>产品 / 工具</span>
+            </div>
+            <h2><a href="https://udify.app" rel="noopener">古人观今网</a></h2>
+            <p>以对话方式摘要网页内容的个人工具。完成了网页端、macOS 与 Android 多端体验，并接入 Dify 工作流。</p>
+            <ul class="tags">
+              <li>HTML/CSS/JS</li>
+              <li>SwiftUI</li>
+              <li>Android</li>
+            </ul>
+          </article>
+          <article class="list-item">
+            <div class="list-meta">
+              <span>占位</span>
+              <span>待补充</span>
+            </div>
+            <h2>下一个项目</h2>
+            <p>在这里写清背景、你的角色、关键决策与可验证结果。面试官通常只扫前两句，所以第一句要有信息量。</p>
+            <ul class="tags">
+              <li>角色</li>
+              <li>技术栈</li>
+            </ul>
+          </article>
+        </div>
+        <p class="slide-more"><a href="projects.html">打开项目页 →</a></p>
+      </div>
+    </section>
+
+    <section class="slide" id="writing" data-section="writing">
+      <div class="slide-inner">
+        <header class="page-head">
+          <p class="eyebrow">Writing</p>
+          <h1>文章</h1>
+          <p class="page-desc">偏记录与表达：把事情写明白，也把判断写出来。</p>
+        </header>
+        <div class="list">
+          <article class="list-item">
+            <div class="list-meta">
+              <time datetime="2026-08-15">2026.08.15</time>
+              <span>方法</span>
+            </div>
+            <h2><a href="posts/how-i-ship.html">我如何把一个想法做成能用的东西</a></h2>
+            <p>从需求、取舍到上线：一份适合面试时展开讲的个人工作方式说明。</p>
+          </article>
+          <article class="list-item">
+            <div class="list-meta">
+              <span>占位</span>
+              <span>待写</span>
+            </div>
+            <h2>一篇能代表你判断力的长文</h2>
+            <p>比起教程清单，面试官更在意：你如何定义问题、排除噪音、做决定。</p>
+          </article>
+        </div>
+        <p class="slide-more"><a href="writing.html">打开文章列表 →</a></p>
+      </div>
+    </section>
+
+    <section class="slide" id="thoughts" data-section="thoughts">
+      <div class="slide-inner">
+        <header class="page-head">
+          <p class="eyebrow">Thoughts</p>
+          <h1>思考</h1>
+          <p class="page-desc">不急着结论的文字：关于选择、节奏，以及想成为什么样的人。</p>
+        </header>
+        <div class="list">
+          <article class="list-item">
+            <div class="list-meta">
+              <time datetime="2026-08-15">2026.08.15</time>
+              <span>随笔</span>
+            </div>
+            <h2><a href="posts/on-building-in-public.html">公开做一件小事</a></h2>
+            <p>为什么我愿意把过程放在明处：不是为了展示完美，而是为了逼自己把事做完。</p>
+          </article>
+          <article class="list-item">
+            <div class="list-meta">
+              <span>占位</span>
+              <span>待写</span>
+            </div>
+            <h2>一次真正改变你的选择</h2>
+            <p>面试里常被问到「讲一个故事」。这里适合放那种你真的想清楚过的经历。</p>
+          </article>
+        </div>
+        <p class="slide-more"><a href="thoughts.html">打开思考列表 →</a></p>
+      </div>
+    </section>
+
+    <section class="slide" id="about" data-section="about">
+      <div class="slide-inner slide-narrow">
+        <header class="page-head">
+          <p class="eyebrow">About</p>
+          <h1>关于</h1>
+        </header>
+        <div class="prose">
+          <p>你好，我是 <strong>Dingjun</strong>。</p>
+          <p>这个网站是我的公开主页：放项目、文章，也放一些人生层面的思考。面试时，你可以直接从这里了解我怎么做事、怎么表达、怎么做选择。</p>
+          <p>目前我更关注能把想法落地的工作——把模糊需求变成清楚方案，再做成别人真的愿意用的东西。</p>
+          <h2>联系</h2>
+          <p>
+            邮箱：<a href="mailto:hi@dingjunn.com">hi@dingjunn.com</a><br />
+            网站：<a href="https://dingjunn.com">dingjunn.com</a>
+          </p>
+        </div>
+        <p class="slide-more"><a href="about.html">打开关于页 →</a></p>
+      </div>
+    </section>
     </div>
-  </main>
-
-  <section class="strip">
-    <a class="strip-item" href="projects.html">
-      <span class="strip-label">Projects</span>
-      <strong>做过的事</strong>
-      <span>可展示的作品与实践</span>
-    </a>
-    <a class="strip-item" href="writing.html">
-      <span class="strip-label">Writing</span>
-      <strong>写过的字</strong>
-      <span>文章、笔记与长文</span>
-    </a>
-    <a class="strip-item" href="thoughts.html">
-      <span class="strip-label">Thoughts</span>
-      <strong>想过的事</strong>
-      <span>人生与选择的随笔</span>
-    </a>
-  </section>
-
-  <footer class="foot">
-    <span>© <span id="year"></span> Dingjun</span>
-    <a href="mailto:hello@dingjunn.com">hello@dingjunn.com</a>
-  </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
