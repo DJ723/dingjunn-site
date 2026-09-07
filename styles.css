@@ -52,6 +52,26 @@ a {
   text-decoration: none;
 }
 
+/* 焦点可见性 —— 键盘可达性的硬性缺口补上 */
+a:focus-visible,
+.btn:focus-visible,
+.dot:focus-visible,
+.list-item h2 a:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* 焦点可见性 —— 键盘可达性的硬性缺口补上 */
+a:focus-visible,
+.btn:focus-visible,
+.dot:focus-visible,
+.list-item h2 a:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 .cosmos {
   pointer-events: none;
   position: fixed;
@@ -257,14 +277,44 @@ a {
   }
 }
 
-@keyframes drift-fast {
+/* 破格元素：巨型水印字，溢出栅格、叠在星云之上，纯装饰 */
+#home {
+  position: relative;
+  overflow: hidden;
+}
+
+.watermark {
+  position: absolute;
+  z-index: 0;
+  left: -3vw;
+  bottom: -1.5vh;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(7rem, 21vw, 17rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: rgba(238, 243, 251, 0.05);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  animation: wm-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes wm-drift {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-240px, 160px, 0);
+    transform: translate3d(-2.5%, -1.5%, 0);
   }
 }
+
+.hero-slide {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+}
+
 
 .nav,
 .hero,
@@ -312,28 +362,53 @@ a {
   height: 100svh;
   flex-shrink: 0;
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: 5.5rem 1.5rem 2.5rem;
   box-sizing: border-box;
 }
 
+/* 内容列两侧留 1.6rem 裁剪余量：hover 金杠（left:-1.3rem）与标题位移（+8px）
+   都落在 padding 区内，不被滚动容器裁掉，也不产生横向滚动条 */
 .slide-inner {
-  width: min(1080px, 100%);
+  width: min(calc(1080px + 3.2rem), calc(100% + 3.2rem));
+  flex-shrink: 0;
   margin: 0 auto;
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
   max-height: calc(100svh - 8rem);
   overflow-y: auto;
+  overflow-x: clip;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   overscroll-behavior: contain;
 }
 
-.hero-slide {
-  text-align: left;
+.slide-narrow {
+  width: min(calc(760px + 3.2rem), calc(100% + 3.2rem));
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
 }
 
-.slide-narrow {
-  width: min(760px, 100%);
+/* 入场动效：内容随背景一起「醒过来」，错峰 60–120ms
+   隐藏初始态挂在 html.js 上：脚本被拦截/出错时内容保持可见，不会白屏 */
+.js .slide-inner > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
+
+.js .slide.is-inview .slide-inner > * {
+  opacity: 1;
+  transform: none;
+}
+
+.js .slide.is-inview .slide-inner > *:nth-child(1) { transition-delay: 0.05s; }
+.js .slide.is-inview .slide-inner > *:nth-child(2) { transition-delay: 0.13s; }
+.js .slide.is-inview .slide-inner > *:nth-child(3) { transition-delay: 0.21s; }
+.js .slide.is-inview .slide-inner > *:nth-child(4) { transition-delay: 0.29s; }
+.js .slide.is-inview .slide-inner > *:nth-child(5) { transition-delay: 0.37s; }
+.js .slide.is-inview .slide-inner > *:nth-child(6) { transition-delay: 0.45s; }
 
 .slide-hint {
   margin-top: 2.2rem;
@@ -605,12 +680,30 @@ a {
 }
 
 .list-item {
+  position: relative;
   padding: 1.75rem 0;
   border-bottom: 1px solid var(--line);
 }
 
 .list-item:first-child {
   padding-top: 0.25rem;
+}
+
+/* 左侧金色短杠，hover/键盘聚焦时滑入 */
+.list-item::before {
+  content: "";
+  position: absolute;
+  left: -1.3rem;
+  top: 2.3rem;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.32s var(--ease);
+}
+
+.list-item:hover::before,
+.list-item:focus-within::before {
+  width: 16px;
 }
 
 .list-meta {
@@ -628,6 +721,32 @@ a {
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-bottom: 0.55rem;
+  transition: transform 0.32s var(--ease);
+}
+
+.list-item:hover h2 {
+  transform: translateX(8px);
+}
+
+.list-item h2 a {
+  display: inline;
+  transition: color 0.25s var(--ease);
+}
+
+/* 标题末尾箭头，hover/键盘聚焦时浮现 */
+.list-item h2 a::after {
+  content: " \2192";
+  display: inline-block;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.list-item:hover h2 a::after,
+.list-item:focus-within h2 a::after {
+  opacity: 1;
+  transform: translateX(2px);
 }
 
 .list-item h2 a:hover {
@@ -767,7 +886,8 @@ a {
   .stars-b,
   .stars-c,
   .shoot,
-  .slide-hint {
+  .slide-hint,
+  .watermark {
     animation: none !important;
     opacity: 1;
   }
@@ -779,5 +899,11 @@ a {
   .meteor-shower,
   .shoot {
     display: none;
+  }
+
+  .slide-inner > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

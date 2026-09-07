@@ -6,6 +6,41 @@
   <meta name="description" content="Dingjun 的个人网站 — 项目、文字，和一些想清楚的事。" />
   <title>Dingjun</title>
   <link rel="stylesheet" href="styles.css" />
+  <noscript>
+    <style>
+      /* 无 JS 时 slider 无法工作：退化为普通纵向滚动页，锚点导航交给浏览器 */
+      html:has(body.is-slider),
+      body.is-slider {
+        height: auto;
+        overflow: auto;
+      }
+      .slider {
+        height: auto;
+        overflow: visible;
+        touch-action: auto;
+      }
+      .slider-track {
+        transform: none !important;
+        transition: none !important;
+      }
+      .slide {
+        height: auto;
+        min-height: 100svh;
+      }
+      .slide-inner,
+      .slide-narrow {
+        width: min(1080px, 100%);
+        max-height: none;
+        padding-left: 0;
+        padding-right: 0;
+        overflow: visible;
+      }
+      .slide-dots,
+      .slide-hint {
+        display: none;
+      }
+    </style>
+  </noscript>
 </head>
 <body class="is-slider">
   <div class="cosmos" aria-hidden="true">
@@ -51,6 +86,7 @@
   <div class="slider" id="slider">
     <div class="slider-track" id="slider-track">
     <section class="slide" id="home" data-section="home">
+      <span class="watermark" aria-hidden="true">DINGJUN</span>
       <div class="slide-inner hero-slide">
         <p class="eyebrow">dingjunn.com</p>
         <h1 class="name">Dingjun</h1>

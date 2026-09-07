@@ -49,6 +49,10 @@
   var track = document.getElementById("slider-track");
   if (!slider || !track) return;
 
+  // 标记脚本已接管：CSS 的入场隐藏态只在 html.js 下生效，
+  // 本脚本被拦截或执行失败时，所有屏的内容保持可见
+  document.documentElement.classList.add("js");
+
   var slides = Array.prototype.slice.call(slider.querySelectorAll(".slide"));
   var dots = Array.prototype.slice.call(document.querySelectorAll(".slide-dots .dot"));
   var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links [data-section]"));
@@ -57,6 +61,8 @@
   var current = 0;
   var wheelAcc = 0;
   var wheelReset = 0;
+  var wheelMuted = false;
+  var wheelIdle = 0;
   var animTimer = 0;
   var coolUntil = 0;
   var touchStartY = 0;
@@ -170,20 +176,31 @@
       if (event.deltaMode === 2) delta *= slideHeight();
       if (!delta) return;
 
+      // 一段连续的滚轮事件流算同一次手势：事件流安静 220ms 才算结束。
+      // 翻页后进入静音，把惯性尾巴整体吞掉，避免冷却一过又翻一页
+      window.clearTimeout(wheelIdle);
+      wheelIdle = window.setTimeout(function () {
+        wheelMuted = false;
+        wheelAcc = 0;
+      }, 220);
+
       if (innerCanScroll(current, delta, event)) return;
 
       event.preventDefault();
       if (Date.now() < coolUntil) return;
+      if (wheelMuted) return;
 
       if (Math.abs(delta) < 10) return;
 
       if (reduceMotion) {
+        wheelMuted = true;
         goTo(current + (delta > 0 ? 1 : -1), true);
         return;
       }
 
       wheelAcc += delta;
       if (Math.abs(wheelAcc) < 36) return;
+      wheelMuted = true;
       goTo(current + (wheelAcc > 0 ? 1 : -1));
     },
     { passive: false, capture: true }
@@ -229,9 +246,11 @@
 
     if (event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
       event.preventDefault();
+      if (Date.now() < coolUntil) return;
       goTo(current + 1);
     } else if (event.key === "ArrowUp" || event.key === "PageUp") {
       event.preventDefault();
+      if (Date.now() < coolUntil) return;
       goTo(current - 1);
     } else if (event.key === "Home") {
       event.preventDefault();
@@ -266,5 +285,8 @@
 
   var startHash = (location.hash || "#home").slice(1);
   var startIndex = sectionIndex(startHash);
+  // 先让 html.js 的隐藏初始态完成一次样式计算，再落到目标屏：
+  // 首屏入场过渡才有「从隐藏到可见」的起点（一切发生在首帧绘制前，不会闪）
+  void document.body.offsetHeight;
   goTo(startIndex, true);
 })();
