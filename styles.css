@@ -62,16 +62,6 @@ a:focus-visible,
   border-radius: 6px;
 }
 
-/* 焦点可见性 —— 键盘可达性的硬性缺口补上 */
-a:focus-visible,
-.btn:focus-visible,
-.dot:focus-visible,
-.list-item h2 a:focus-visible {
-  outline: 2px solid var(--accent-strong);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
 .cosmos {
   pointer-events: none;
   position: fixed;
