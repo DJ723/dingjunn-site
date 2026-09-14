@@ -116,6 +116,12 @@
       );
     }
 
+    // 状态栏：页码 + 当前分区
+    var stPage = document.getElementById("st-page");
+    if (stPage) stPage.textContent = "PAGE " + (current + 1) + "/" + slides.length;
+    var stSec = document.getElementById("st-sec");
+    if (stSec) stSec.textContent = id;
+
     if (history.replaceState) {
       history.replaceState(null, "", "#" + id);
     }
@@ -289,4 +295,39 @@
   // 首屏入场过渡才有「从隐藏到可见」的起点（一切发生在首帧绘制前，不会闪）
   void document.body.offsetHeight;
   goTo(startIndex, true);
+
+  // 状态栏：运行计时（分钟:秒）
+  var stUp = document.getElementById("st-up");
+  if (stUp) {
+    var t0 = Date.now();
+    window.setInterval(function () {
+      var s = Math.floor((Date.now() - t0) / 1000);
+      var m = Math.floor(s / 60);
+      var ss = s % 60;
+      stUp.textContent = (m < 10 ? "0" : "") + m + ":" + (ss < 10 ? "0" : "") + ss;
+    }, 1000);
+  }
+
+  // 首屏打字机：每会话只播一次（sessionStorage 记录），reduced-motion 直接跳过
+  var ledeText = document.getElementById("lede-text");
+  if (
+    ledeText &&
+    !reduceMotion &&
+    startIndex === 0 &&
+    !(window.sessionStorage && window.sessionStorage.getItem("lede-typed"))
+  ) {
+    var fullText = ledeText.textContent;
+    var li = 0;
+    ledeText.textContent = "";
+    var typeTimer = window.setInterval(function () {
+      li += 1;
+      ledeText.textContent = fullText.slice(0, li);
+      if (li >= fullText.length) {
+        window.clearInterval(typeTimer);
+        try {
+          if (window.sessionStorage) window.sessionStorage.setItem("lede-typed", "1");
+        } catch (e) {}
+      }
+    }, 45);
+  }
 })();

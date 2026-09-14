@@ -76,11 +76,11 @@
   </header>
 
   <nav class="slide-dots" aria-label="页面切换">
-    <button type="button" class="dot is-active" data-target="home" aria-label="首页"></button>
-    <button type="button" class="dot" data-target="projects" aria-label="项目"></button>
-    <button type="button" class="dot" data-target="writing" aria-label="文章"></button>
-    <button type="button" class="dot" data-target="thoughts" aria-label="思考"></button>
-    <button type="button" class="dot" data-target="about" aria-label="关于"></button>
+    <button type="button" class="dot is-active" data-target="home" data-index="01" data-name="home" aria-label="首页"></button>
+    <button type="button" class="dot" data-target="projects" data-index="02" data-name="proj" aria-label="项目"></button>
+    <button type="button" class="dot" data-target="writing" data-index="03" data-name="blog" aria-label="文章"></button>
+    <button type="button" class="dot" data-target="thoughts" data-index="04" data-name="note" aria-label="思考"></button>
+    <button type="button" class="dot" data-target="about" data-index="05" data-name="about" aria-label="关于"></button>
   </nav>
 
   <div class="slider" id="slider">
@@ -90,7 +90,7 @@
       <div class="slide-inner hero-slide">
         <p class="eyebrow">dingjunn.com</p>
         <h1 class="name">Dingjun</h1>
-        <p class="lede">项目、文字，和一些想清楚的事。</p>
+        <p class="lede"><span id="lede-text">项目、文字，和一些想清楚的事。</span><span class="caret" aria-hidden="true">▊</span></p>
         <div class="cta-row">
           <a class="btn btn-solid" href="#projects">看项目</a>
           <a class="btn btn-ghost" href="#writing">读文章</a>
@@ -99,7 +99,6 @@
         <p class="slide-hint">向下滑动，一屏一屏看</p>
       </div>
     </section>
-
     <section class="slide" id="projects" data-section="projects">
       <div class="slide-inner">
         <header class="page-head">
@@ -111,7 +110,7 @@
           <article class="list-item">
             <div class="list-meta">
               <span>2026</span>
-              <span>产品 / 工具</span>
+              <span class="cat">产品/工具</span>
             </div>
             <h2><a href="https://udify.app" rel="noopener">古人观今网</a></h2>
             <p>以对话方式摘要网页内容的个人工具。完成了网页端、macOS 与 Android 多端体验，并接入 Dify 工作流。</p>
@@ -124,7 +123,7 @@
           <article class="list-item">
             <div class="list-meta">
               <span>占位</span>
-              <span>待补充</span>
+              <span class="cat">待补充</span>
             </div>
             <h2>下一个项目</h2>
             <p>在这里写清背景、你的角色、关键决策与可验证结果。面试官通常只扫前两句，所以第一句要有信息量。</p>
@@ -134,7 +133,7 @@
             </ul>
           </article>
         </div>
-        <p class="slide-more"><a href="projects.html">打开项目页 →</a></p>
+        <p class="slide-more"><a href="projects.html">打开项目页 -></a></p>
       </div>
     </section>
 
@@ -149,7 +148,7 @@
           <article class="list-item">
             <div class="list-meta">
               <time datetime="2026-08-15">2026.08.15</time>
-              <span>方法</span>
+              <span class="cat">方法</span>
             </div>
             <h2><a href="posts/how-i-ship.html">我如何把一个想法做成能用的东西</a></h2>
             <p>从需求、取舍到上线：一份适合面试时展开讲的个人工作方式说明。</p>
@@ -157,13 +156,13 @@
           <article class="list-item">
             <div class="list-meta">
               <span>占位</span>
-              <span>待写</span>
+              <span class="cat">待写</span>
             </div>
             <h2>一篇能代表你判断力的长文</h2>
             <p>比起教程清单，面试官更在意：你如何定义问题、排除噪音、做决定。</p>
           </article>
         </div>
-        <p class="slide-more"><a href="writing.html">打开文章列表 →</a></p>
+        <p class="slide-more"><a href="writing.html">打开文章列表 -></a></p>
       </div>
     </section>
 
@@ -178,7 +177,7 @@
           <article class="list-item">
             <div class="list-meta">
               <time datetime="2026-08-15">2026.08.15</time>
-              <span>随笔</span>
+              <span class="cat">随笔</span>
             </div>
             <h2><a href="posts/on-building-in-public.html">公开做一件小事</a></h2>
             <p>为什么我愿意把过程放在明处：不是为了展示完美，而是为了逼自己把事做完。</p>
@@ -186,13 +185,13 @@
           <article class="list-item">
             <div class="list-meta">
               <span>占位</span>
-              <span>待写</span>
+              <span class="cat">待写</span>
             </div>
             <h2>一次真正改变你的选择</h2>
             <p>面试里常被问到「讲一个故事」。这里适合放那种你真的想清楚过的经历。</p>
           </article>
         </div>
-        <p class="slide-more"><a href="thoughts.html">打开思考列表 →</a></p>
+        <p class="slide-more"><a href="thoughts.html">打开思考列表 -></a></p>
       </div>
     </section>
 
@@ -217,6 +216,13 @@
     </section>
     </div>
   </div>
+
+  <footer class="footer-bar" aria-hidden="true">
+    <span>UTF-8</span>
+    <span id="st-page">PAGE 1/5</span>
+    <span id="st-sec">home</span>
+    <span>UPTIME <span id="st-up">00:00</span></span>
+  </footer>
 
   <script src="script.js"></script>
 </body>
