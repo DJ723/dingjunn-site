@@ -1,0 +1,259 @@
+/* 拆解栏目专用样式：复用 styles.css 的变量与版式，只补拆解页需要的部分 */
+
+.td-tags {
+  margin-top: 1rem;
+}
+
+.td-figure {
+  margin: 2.2rem 0 2.6rem;
+}
+
+.td-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius, 12px);
+  background: var(--bg-soft);
+}
+
+.td-figure--sm img {
+  width: auto;
+  max-width: 420px;
+}
+
+.td-body {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(1rem, 3vw, 1.9rem);
+}
+
+.td-field {
+  margin-bottom: 1.7rem;
+}
+
+.td-field h2 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  margin-bottom: 0.5rem;
+}
+
+.td-field p,
+.td-field li {
+  color: #c8d2e2;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.td-field p + p {
+  margin-top: 0.7rem;
+}
+
+.td-field ul {
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.td-field li {
+  position: relative;
+  padding-left: 0.95rem;
+}
+
+.td-field li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  color: var(--faint);
+  font-family: var(--mono);
+}
+
+.td-field strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.td-field mark {
+  background: rgba(215, 179, 122, 0.14);
+  color: var(--accent-strong);
+  padding: 0 0.18em;
+  border-radius: 3px;
+}
+
+.td-field--key {
+  padding: 1.1rem 1.25rem;
+  margin-left: calc(-1 * clamp(1rem, 3vw, 1.9rem));
+  border: 1px solid rgba(215, 179, 122, 0.22);
+  border-radius: 12px;
+  background: rgba(215, 179, 122, 0.045);
+}
+
+.td-field--key h2 {
+  color: var(--accent);
+}
+
+.td-field--ai {
+  border-color: rgba(160, 190, 255, 0.22);
+  background: rgba(140, 175, 255, 0.05);
+}
+
+.td-field--ai h2 {
+  color: #a9c2f0;
+}
+
+.td-pager {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.td-pager a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  color: var(--ink);
+  transition: color 0.25s var(--ease);
+}
+
+.td-pager span {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+}
+
+.td-pager-next {
+  text-align: right;
+  margin-left: auto;
+}
+
+.td-pager a:hover {
+  color: var(--accent-strong);
+}
+
+.td-pager a:focus-visible,
+.td-method-link a:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.td-method-link {
+  margin: 0 0 2.2rem;
+}
+
+.td-method-link a {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  transition: color 0.25s var(--ease);
+}
+
+.td-method-link a:hover {
+  color: var(--accent-strong);
+}
+
+.td-steps {
+  list-style: none;
+}
+
+.td-step {
+  display: flex;
+  gap: 1.1rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.td-step-no {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  padding-top: 0.3rem;
+}
+
+.td-step h2 {
+  font-family: var(--display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.td-step p {
+  color: var(--muted);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+.td-method {
+  margin-bottom: 1.6rem;
+}
+
+@media (max-width: 640px) {
+  .td-body {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .td-field--key {
+    margin-left: 0;
+  }
+
+  .td-figure--sm img {
+    max-width: 100%;
+  }
+}
+
+.series {
+  margin-bottom: 3rem;
+}
+
+.series-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.series-head h2 {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.series-count {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
+.series-desc {
+  margin-top: 0.9rem;
+  max-width: 40em;
+  color: var(--muted);
+  font-size: 0.99rem;
+  line-height: 1.7;
+}
+
+.series .td-method-link {
+  margin: 1rem 0 1.8rem;
+}
+
+/* 系列内的列表与上方说明留出呼吸 */
+.series .list {
+  margin-top: 1.5rem;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="混合检索不是把向量和 BM25 拼起来那么简单：分数怎么合、权重给多少、为什么我没上 RRF 和 Rerank。" />
+  <title>为什么我给 BM25 留了 35% · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../posts/posts.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span>
+      <span class="shoot shoot-2"></span>
+      <span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span>
+      <span class="shoot shoot-5"></span>
+      <span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span>
+      <span class="shoot shoot-8"></span>
+      <span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span>
+      <span class="shoot shoot-11"></span>
+      <span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="../projects.html">项目</a>
+      <a class="is-active" href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page page-narrow">
+    <article class="article">
+      <header class="article-head">
+        <p class="eyebrow">系统拆解 · NutriFit · 检索</p>
+        <h1>为什么我给 BM25 留了 35%</h1>
+        <p class="article-deck">向量检索负责语义相近，BM25 负责型号、专名和数字。把两路拼起来不难，难的是拼完之后分数怎么合、谁该排在前面。</p>
+      </header>
+
+      <div class="prose">
+        <p>NutriFit 的营养知识库不大：几百个分段，一半是食物营养数据，一半是减脂、食谱、客服合规这类说明文档。我给检索设的参数是<strong>向量 0.65、BM25 0.35</strong>，每次取 6 条。</p>
+
+        <p>这个 0.35 经常被问：都已经用上向量检索了，为什么还要留这么高的份额给一个 1994 年的词频算法？下面是我在真实数据上得出的三个理由，以及我为此放弃的两个方案。</p>
+
+        <h2>一、这个知识库里，很多问题问的是「字」不是「意思」</h2>
+        <p>「鸡胸肉一百克多少蛋白质」这种问法，看上去是语义问题，实际上是一次精确取值：知识库里就是一行 <code>鸡胸肉：蛋白质 24.6g</code>。向量擅长判断两句话像不像，但对「24.6」「NRV」「赤藓糖醇」这类没有语义近邻的词，它给不出稳定信号。</p>
+
+        <p>营养场景里专有名词密度很高，这一点尤其明显。用户问的是一个具体食物、一个具体成分、一个具体数值，而向量空间里它们彼此都很远。</p>
+
+        <h2>二、BM25 解决的是「词越稀有越有用」</h2>
+        <p>BM25 打分由三件事决定，缺一不可：</p>
+        <ul>
+          <li><strong>词频饱和</strong>：一个词出现十次，不该比出现三次相关三倍，所以增益要收敛（<code>k1 = 2.5</code>）。</li>
+          <li><strong>IDF</strong>：越稀有的词越有区分力。「的」「可以」满库都是，权重应该接近零；「蛋白质」只出现在营养文档里，权重就该高。</li>
+          <li><strong>长度归一化</strong>：长文档天然更容易命中词，不除一下就永远排在前面（<code>b = 0.75</code>）。</li>
+        </ul>
+        <p>一句话记住：<strong>BM25 = 关键词匹配 + 词项重要程度 + 词频饱和 + 长度归一化</strong>。它不判断意思，但判断得非常稳。</p>
+
+        <h2>三、两路分数不能直接相加</h2>
+        <p>这是最容易写错的一行代码。余弦相似度落在 0 到 1 之间，BM25 的分数没有上界——一个长查询命中好几个稀有词，BM25 能轻松跑到 20 以上。直接相加，结果会完全被 BM25 支配。</p>
+
+        <p class="article-quote">两路分数不在同一个量纲上。要么先归一化再加权，要么只比较排名，不比较分数。</p>
+
+        <p>归一化的写法很简单，但有个副作用值得知道：我除以的是<strong>本次查询的最高分</strong>，不是理论最大值。这意味着每一轮检索里，至少有一条候选会被抬到满分 1.0，两路的相对权重才稳定。</p>
+
+        <h2>我为什么没选 RRF</h2>
+        <p>RRF（倒数排名融合）是现在更流行的做法：不看分数，只看名次，按 <code>1 / (k + rank)</code> 汇总。它的好处是彻底躲开量纲问题，多路异构检索器也能直接融合。</p>
+
+        <p>但这里只有两路，而且两路的分数经过归一化之后是可以比较的。RRF 的代价是<strong>把分数差压成了名次差</strong>：第一名和第二名之间，无论差 0.01 还是 0.5，贡献的区分都一样。既然我的场景里「某条命中得特别准」本身是有信息量的，我就不该把它丢掉。</p>
+
+        <p>结论：路数多、量纲杂、检索器不可比的时候用 RRF；路数少、分数可控的时候，加权归一化更保真。这不是谁更先进的问题，是场景问题。</p>
+
+        <h2>一个教程里不会写的问题：同一份文档会占满名额</h2>
+        <p>合并完分数、排序、取前 6 条——第一版就是这样，结果发现同一个文档被切成 4 段，一起挤进了前 6 名，其他来源全被挤掉。答案看上去很详细，实际上只读了一份文件。</p>
+
+        <p>长文档切块之后，相邻分段的向量和词项都高度相似，一旦命中就成群出现。所以我在取数时加了来源限流：<strong>同一个文件最多占 2 个名额</strong>，超出的跳过，继续往下找。</p>
+
+        <p>这个改动只改了 3 行，但它是整套检索里对答案质量影响最大的一处——它保证的是<strong>覆盖</strong>，而覆盖比单条精确更影响最终结论。</p>
+
+        <h2>我为什么还没上 Rerank</h2>
+        <p>Cross-Encoder 重排序确实有效：初检拿 Top-100，再用精细模型重新打分，取 Top-5。它能解决「召回到了但排错了」的问题。我没上，原因有三个，都不是「不知道」：</p>
+        <ul>
+          <li><strong>延迟</strong>：每轮要对上百个「查询-文档」对做一次前向计算，和现在毫秒级的检索不是一个量级。</li>
+          <li><strong>成本</strong>：这笔算力要么花在本地 CPU 上，要么花在 API 上，两个都要钱。</li>
+          <li><strong>收益还不成立</strong>：知识库只有几百个分段，初检取 6 条之后，排序错误的样本量太小，加了重排也很难测出差别。</li>
+        </ul>
+        <p>什么时候该加：知识库涨到万级分段、或者开始出现「明明有这个文档但没排上来」的反馈。判断依据不是复杂度，是评测——先有指标，再谈加模块。</p>
+
+        <h2>这一版还欠一笔账</h2>
+        <p>要说清楚：这里的「向量」用的是字符 n-gram 哈希（char 2–4 gram，1536 维），不是神经网络 embedding。它的好处是零依赖、零成本、启动即用；代价是它本质上仍在做字面相似，语义能力有限。这也是 BM25 必须占到 35% 的真实原因——不是锦上添花，是这个配置下的必需品。</p>
+
+        <p>如果重做，我会换真 embedding 并重建索引，那时候 BM25 的权重应该降到 0.15 左右，再补一层 Rerank。顺序不能反：先让向量真的干语义的活，再谈重排。</p>
+
+        <h2>自测七问</h2>
+        <ol>
+          <li>已经有了向量检索，为什么还要引入 BM25？各举一个只有它能解决的例子。</li>
+          <li>TF、IDF、文档长度归一化分别解决什么问题？为什么不能简单按关键词出现次数排序？</li>
+          <li>向量分数和 BM25 分数为什么不能直接相加？有几种方式让它们可比？</li>
+          <li>RRF 与加权融合的差别在哪？什么情况下你一定会选 RRF？</li>
+          <li>为什么混合检索之后还需要 Rerank？为什么不能直接用 Cross-Encoder 检索全库？</li>
+          <li>最终答案不准时，你怎么判断是召回问题还是排序问题？</li>
+          <li>Top-100 重排到 Top-5，initial_top_k 和 final_top_k 分别影响哪些指标？</li>
+        </ol>
+      </div>
+    </article>
+
+    <p class="backlink"><a href="../articles/index.html">&larr; 返回文章</a></p>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../index.html">首页</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

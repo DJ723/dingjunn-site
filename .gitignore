@@ -4,3 +4,11 @@ node_modules/
 *.log
 npm-debug.log*
 .git-push-token
+
+# 工作区杂物，不属于站点
+inbox/
+quote-assistant/
+未命名/
+content/
+EMAIL.md
+__pycache__/

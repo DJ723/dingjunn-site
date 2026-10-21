@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="医疗问答里「不能说确诊」这类约束，写在提示词里并不可靠。医路通的做法是在模型输出之后，用一层确定性代码改掉。" />
+  <title>合规不写进提示词，写进后处理 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../posts/posts.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span>
+      <span class="shoot shoot-2"></span>
+      <span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span>
+      <span class="shoot shoot-5"></span>
+      <span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span>
+      <span class="shoot shoot-8"></span>
+      <span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span>
+      <span class="shoot shoot-11"></span>
+      <span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="../projects.html">项目</a>
+      <a class="is-active" href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page page-narrow">
+    <article class="article">
+      <header class="article-head">
+        <p class="eyebrow">系统拆解 · 医路通 · 合规</p>
+        <h1>合规不写进提示词，写进后处理</h1>
+        <p class="article-deck">「你不能说确诊」这句话放在提示词里，等于没有约束。医路通里真正拦住它的，是一层跑在模型输出之后的确定性代码。</p>
+      </header>
+
+      <div class="prose">
+        <p>医疗问答有一条硬约束：不能替医生下诊断，不能给具体用药剂量，不能把可能性说成结论。第一版我把这些写进了系统提示词，写了整整一屏。</p>
+
+        <p>然后它就漏了。同一句约束，模型今天遵守得挺好，换一个问法、换一段更长的上下文，就开始说「你这个应该是缺铁性贫血」。而且它漏的时候你不一定看得出来——语气笃定，结论明确，读起来比正确答案还像答案。</p>
+
+        <p class="article-quote">概率模型不会违约，它只会降低遵守的概率。所以约束不能只放在提示词里。</p>
+
+        <h2>做法：把禁止性表述改在输出之后</h2>
+        <p>现在这段逻辑跑在模型返回之后、推给用户之前：先做一轮确定性的词句替换，再强制追加免责声明。</p>
+
+        <div class="ledger-wrap">
+          <table class="ledger">
+            <thead>
+              <tr><th>模型原来输出</th><th>改写后</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>确诊为……</td><td>需要由医生评估是否为……</td></tr>
+              <tr><td>一定是……</td><td>可能为……</td></tr>
+              <tr><td>必须服用……</td><td>是否用药需要医生评估</td></tr>
+              <tr><td>剂量是……</td><td>具体剂量需要遵医嘱</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>末尾再补一句固定声明：内容仅供健康科普和就医参考，不能替代医生诊断、处方或治疗。</p>
+
+        <p>这套替换很粗糙，但它是<strong>确定性的</strong>：同一句输入，改出来的结果永远一样；改错了可以复现，可以补词表，可以写回归测试。这一点比「模型这次表现得不错」重要得多。</p>
+
+        <h2>它的四个漏洞</h2>
+        <p>我很清楚这层替换不聪明，具体漏在哪儿：</p>
+        <ul>
+          <li><strong>同义绕开</strong>：说「基本可以确定是」，词表里的四个词一个都没命中。</li>
+          <li><strong>误伤</strong>：用户自己说「我确诊为糖尿病」，模型复述时也会被改，读起来别扭。</li>
+          <li><strong>只管中文句式</strong>：换成英文、缩写、或把结论藏在列表里，替换就失效。</li>
+          <li><strong>事后而非事前</strong>：它改的是措辞，改不了已经跑偏的推理——如果模型把症状归错了系统，改写只让错误变得更委婉。</li>
+        </ul>
+        <p>所以它是护栏，不是判断。护栏的作用是把「明显越界」压到零，剩下的边界问题得靠证据链和评测。</p>
+
+        <h2>另一半：风险分层只做提示，不做决策</h2>
+        <p>项目里还有一层关键词风险分层：命中「胸痛」「意识不清」「呕血」这类词，标为高风险；命中「发热」「持续」「头痛」标为中风险。这套规则的结果会进入上下文，但标签上写着<strong>「仅作参考」</strong>。</p>
+
+        <p>我纠结过要不要让它直接决定输出——高风险就跳过模型，直接给「立即就医」。最后没这么做，理由有两个：</p>
+        <ul>
+          <li>关键词匹配会漏。用户说「胸口像被压着」，词表里没有「胸痛」，但这是心梗的典型描述。让一个会漏的规则拥有否决权，风险更大。</li>
+          <li>关键词匹配会误伤。「没有胸痛，就是有点反酸」同样命中「胸痛」，可能把一次普通咨询推向急救建议。</li>
+        </ul>
+
+        <p>所以现在的分工是：<strong>模型负责综合判断，规则负责提供提示和兜底改写</strong>。这不是最优解，是把「谁出错更可控」权衡之后的结果——模型漏了，规则可能补上；规则误判了，模型还有机会纠正。</p>
+
+        <h2>如果继续做</h2>
+        <p>顺序应该是这样，不能跳步：</p>
+        <ul>
+          <li>先建一个 200 条左右的评测集，覆盖越界表述、否定句、同义表述三类，把现在这层的召回率测出来。没有这个数字，后面所有改进都是猜。</li>
+          <li>再补否定检测（「没有」「不是」「排除」），这一条同时改善风险分层的误判。</li>
+          <li>最后才考虑把改写升级成语义层面的判定，比如用小模型做一次「这句话是否越界」的分类，而不是字符串替换。</li>
+        </ul>
+
+        <h2>一句总结</h2>
+        <p>医疗场景里，「模型说了什么」和「用户看到了什么」应该是两个可分离的环节。把合规放在这两个环节之间，比放在提示词里可靠——因为提示词只能提高概率，后处理可以保证结果。</p>
+      </div>
+    </article>
+
+    <p class="backlink"><a href="../articles/index.html">&larr; 返回文章</a></p>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../index.html">首页</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

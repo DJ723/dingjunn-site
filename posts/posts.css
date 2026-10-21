@@ -1,0 +1,62 @@
+/* 文章页：表格与阅读样式补充 */
+
+.article-deck {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin-top: 0.7rem;
+}
+
+.ledger-wrap {
+  overflow-x: auto;
+  margin: 1.6rem 0 2.2rem;
+}
+
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+}
+
+.ledger th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  padding: 0 1.2rem 0.65rem 0;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.ledger td {
+  padding: 0.8rem 1.2rem 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+  color: #c8d2e2;
+  vertical-align: top;
+  line-height: 1.65;
+}
+
+.ledger td:first-child {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.article-quote {
+  border-left: 2px solid rgba(215, 179, 122, 0.5);
+  padding-left: 1.1rem;
+  margin: 1.4rem 0;
+  color: var(--ink);
+}
+
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  color: var(--accent-strong);
+  background: rgba(215, 179, 122, 0.1);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}

@@ -1,0 +1,142 @@
+/* 项目页专用样式：沿用 styles.css 的变量，补项目卡片的排版 */
+
+.proj {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  gap: clamp(1.4rem, 4vw, 2.6rem);
+  align-items: start;
+  padding: 2.6rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.proj:first-of-type {
+  padding-top: 0.4rem;
+}
+
+.proj-media {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.proj-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.proj-media img + img {
+  width: 62%;
+  align-self: flex-end;
+}
+
+.proj-meta {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  color: var(--faint);
+  margin-bottom: 0.55rem;
+}
+
+.proj-meta .cat {
+  color: var(--accent);
+}
+
+.proj h2 {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3vw, 1.95rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.proj-sub {
+  color: var(--accent);
+  font-size: 0.95rem;
+  margin-bottom: 0.9rem;
+}
+
+.proj-desc {
+  color: var(--muted);
+  font-size: 0.99rem;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.proj-points {
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 0.2rem;
+}
+
+.proj-points li {
+  position: relative;
+  padding-left: 1rem;
+  color: #c8d2e2;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.proj-points li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  color: var(--faint);
+  font-family: var(--mono);
+}
+
+.proj-links {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.84rem;
+}
+
+.proj-links a {
+  color: var(--accent);
+  transition: color 0.25s var(--ease);
+}
+
+.proj-links a:hover {
+  color: var(--accent-strong);
+}
+
+.proj-links a:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.proj-code {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 2;
+  color: #c8d2e2;
+  background: rgba(120, 150, 200, 0.06);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  overflow-x: auto;
+}
+
+.proj-code span {
+  color: var(--faint);
+}
+
+@media (max-width: 860px) {
+  .proj {
+    grid-template-columns: 1fr;
+  }
+
+  .proj-media img + img {
+    width: 70%;
+  }
+}

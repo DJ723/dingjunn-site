@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="医路通的报告记忆为什么不是「每轮都检索」，而是先判断这次该不该读历史——医疗场景里用错记忆比不用更危险。" />
+  <title>记忆最难的不是存，是决定什么时候别读 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../posts/posts.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span>
+      <span class="shoot shoot-2"></span>
+      <span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span>
+      <span class="shoot shoot-5"></span>
+      <span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span>
+      <span class="shoot shoot-8"></span>
+      <span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span>
+      <span class="shoot shoot-11"></span>
+      <span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="../projects.html">项目</a>
+      <a class="is-active" href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page page-narrow">
+    <article class="article">
+      <header class="article-head">
+        <p class="eyebrow">系统拆解 · 医路通 · 记忆</p>
+        <h1>记忆最难的不是存，是决定什么时候别读</h1>
+        <p class="article-deck">给 Agent 加记忆很容易：建一张表，把历史塞进去，每轮检索一下。难的是判断这一次该不该读——在医疗场景里，用错旧记忆比没有记忆更危险。</p>
+      </header>
+
+      <div class="prose">
+        <p>医路通里有一类用户行为是别的场景少见的：把体检报告传上来，问几个问题，然后隔两三个月再回来，接着问「我上次那个指标怎么样」。</p>
+
+        <p>这类回溯需求天然需要记忆。但医疗数据和聊天记录不一样，它有<strong>半衰期</strong>：三个月前的血脂结论，今天只能作为对照；半年前的用药建议，今天直接引用就是错的。所以整套设计里最关键的一个决定，不是「怎么存」，是——</p>
+
+        <p class="article-quote">每一轮都要先判断：这次该用当前附件、用本轮会话的报告、还是用长期记忆？三者只能有一个当证据主体。</p>
+
+        <h2>先定意图，再定证据</h2>
+        <p>接到一条消息，系统先做一次意图判定，输出四样东西：意图、用不用当前附件、用不用长期记忆、证据优先级。七种意图对应七套开关：</p>
+
+        <div class="ledger-wrap">
+          <table class="ledger">
+            <thead>
+              <tr><th>意图</th><th>典型问法</th><th>读长期记忆</th><th>证据优先级</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>分诊</td><td>「胸口疼，要看哪个科」</td><td>否</td><td>知识库优先</td></tr>
+              <tr><td>历史查询</td><td>「我上次体检尿酸多少」</td><td>是</td><td>知识库优先</td></tr>
+              <tr><td>纵向对比（纯文字）</td><td>「比去年是不是降了」</td><td>是</td><td>知识库优先</td></tr>
+              <tr><td>纵向对比（带新报告）</td><td>传新报告 + 「和之前的比」</td><td>是</td><td>当前附件优先</td></tr>
+              <tr><td>新旧同问</td><td>传新报告 + 「这个严不严重」</td><td>是</td><td>当前附件优先</td></tr>
+              <tr><td>报告追问</td><td>「这个箭头什么意思」</td><td>否</td><td>本轮会话报告</td></tr>
+              <tr><td>普通咨询</td><td>「晚上吃太油怎么办」</td><td>否</td><td>知识库优先</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>两个设计要点值得单独说。</p>
+
+        <p><strong>一、分诊场景强制关闭记忆。</strong>问「胸口疼看哪个科」的时候，需要的只有当前症状。这时候如果检索出「三个月前你说过自己有胃食管反流」，模型很可能把旧结论当解释，把一次需要排查心血管的胸痛，说成老毛病。这是记忆能造成的、最典型的一类伤害。</p>
+
+        <p><strong>二、传了新报告时，以新报告为主证据。</strong>只要本轮带了附件，历史记忆就退居对照位——它的作用是给出参照值，而不是替代当前数据。代码里这条体现为一个显式的字段 <code>evidence_policy = current_attachment_first</code>，不靠提示词口头约束。</p>
+
+        <h2>检索画像：把报告压成几个词再去查</h2>
+        <p>直接拿用户那句话去查历史报告，命中率很低。用户说的是「我上次那个指标咋回事」，报告里写的是「低密度脂蛋白胆固醇」。中间隔着一次术语翻译。</p>
+
+        <p>所以检索前会先构造一份画像：从这次的消息和报告解析结果里，抽出<strong>临床系统</strong>（心血管、消化、内分泌……）、<strong>报告主题</strong>（血脂、肝功能、影像），再加上报告标题，各组取前 8 个词，拼成检索语句。相当于把用户的自然语言，翻译成报告自己使用的词汇。</p>
+
+        <h2>没做好的地方</h2>
+        <p>这套设计有个明显的短板：意图判定在模型不可用时会退回到<strong>关键词兜底</strong>——「比」「变化」「复查」「之前」这类词触发对比意图。它的问题是脆弱：</p>
+        <ul>
+          <li><strong>漏判</strong>：「和上回那个单子比呢」不含上述任何一个词，会掉进普通咨询。</li>
+          <li><strong>误判</strong>：「我没有之前的报告」也含「之前的报告」，会被判成历史查询，然后去检索一批不存在的东西。</li>
+          <li><strong>没有时间权重</strong>：现在检索只按相关性排序，三个月前和两年前的报告权重一样。医疗数据显然该随时间衰减。</li>
+        </ul>
+
+        <p>如果继续做，顺序应该是：给每份报告带上检查日期，检索分数乘以时间衰减；再补一层否定检测（「没有」「不是」「别」），避免把否定句判成肯定意图。这两件都不难，但都必须在评测集上验证——记忆这类模块最容易越加越乱，改一处坏三处。</p>
+
+        <h2>一句总结</h2>
+        <p>做记忆时我以为难点在存储和检索。做完才发现，真正的设计量在<strong>「不该读的时候不读」</strong>：分诊时关掉、有新证据时降级、旧数据加权衰减。记忆的价值取决于阈值，不取决于容量。</p>
+      </div>
+    </article>
+
+    <p class="backlink"><a href="../articles/index.html">&larr; 返回文章</a></p>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../index.html">首页</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
