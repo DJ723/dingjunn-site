@@ -60,3 +60,30 @@
   padding: 0.1em 0.35em;
   border-radius: 3px;
 }
+
+/* 原则清单：一句话一行，用细竖线框住，不和正文揉成一段 */
+.prose .rule-list {
+  list-style: none;
+  margin: 0.15rem 0 0.5rem;
+  padding: 0.15rem 0 0.15rem 1.05rem;
+  border-left: 1px solid rgba(215, 179, 122, 0.32);
+  display: grid;
+  gap: 0.42rem;
+}
+
+.prose .rule-list li {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+@media (max-width: 520px) {
+  .prose .rule-list {
+    padding-left: 0.85rem;
+  }
+
+  .prose .rule-list li {
+    font-size: 0.95rem;
+  }
+}
