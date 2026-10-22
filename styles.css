@@ -1004,38 +1004,6 @@ a:focus-visible,
   margin-top: clamp(2.5rem, 8vh, 5rem);
 }
 
-/* 精选屏：四条要有各自的呼吸，但必须一屏放得下 */
-#picked .page-head {
-  margin-bottom: 1.4rem;
-  padding-bottom: 1rem;
-}
-
-#picked .page-head h1 {
-  font-size: clamp(2rem, 4.4vw, 2.9rem);
-  margin-bottom: 0.5rem;
-}
-
-#picked .list-item {
-  padding: 0.85rem 0;
-}
-
-#picked .list-item::before {
-  top: 1.5rem;
-}
-
-#picked .list-item h2 {
-  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
-  margin-bottom: 0.3rem;
-}
-
-#picked .list-item > p {
-  font-size: 0.93rem;
-}
-
-#picked .slide-more {
-  display: none;
-}
-
 /* 关于页：数学那段要能安静地读 */
 .page-narrow .prose h2 {
   margin-top: 2.4rem;
