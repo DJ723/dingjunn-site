@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Dingjun 的个人网站 — 项目、文字，和一些想清楚的事。" />
+  <meta name="description" content="Dingjun 的个人网站：一些想法，一些实验，一些尚未想明白的问题。" />
   <title>Dingjun</title>
   <link rel="stylesheet" href="styles.css" />
   <noscript>
@@ -77,10 +77,11 @@
 
   <nav class="slide-dots" aria-label="页面切换">
     <button type="button" class="dot is-active" data-target="home" data-index="01" data-name="home" aria-label="首页"></button>
-    <button type="button" class="dot" data-target="projects" data-index="02" data-name="proj" aria-label="项目"></button>
-    <button type="button" class="dot" data-target="writing" data-index="03" data-name="blog" aria-label="文章"></button>
-    <button type="button" class="dot" data-target="thoughts" data-index="04" data-name="note" aria-label="思考"></button>
-    <button type="button" class="dot" data-target="about" data-index="05" data-name="about" aria-label="关于"></button>
+    <button type="button" class="dot" data-target="picked" data-index="02" data-name="pick" aria-label="精选"></button>
+    <button type="button" class="dot" data-target="projects" data-index="03" data-name="proj" aria-label="项目"></button>
+    <button type="button" class="dot" data-target="writing" data-index="04" data-name="blog" aria-label="文章"></button>
+    <button type="button" class="dot" data-target="thoughts" data-index="05" data-name="note" aria-label="思考"></button>
+    <button type="button" class="dot" data-target="about" data-index="06" data-name="about" aria-label="关于"></button>
   </nav>
 
   <div class="slider" id="slider">
@@ -89,63 +90,102 @@
       <span class="watermark" aria-hidden="true">DINGJUN</span>
       <div class="slide-inner hero-slide">
         <p class="eyebrow">dingjunn.com</p>
-        <h1 class="name">Dingjun</h1>
-        <p class="lede"><span id="lede-text">把 demo 做成能跑的系统。</span><span class="caret" aria-hidden="true">▊</span></p>
-        <p class="hero-stats">
-          <span><strong>4</strong> 个项目</span>
-          <span><strong>20</strong> 篇文章</span>
-          <span><strong>3</strong> 篇论文在投</span>
-        </p>
-        <div class="cta-row">
-          <a class="btn btn-solid" href="#projects">看项目</a>
-          <a class="btn btn-ghost" href="#writing">读文章</a>
-          <a class="btn btn-ghost" href="#thoughts">读思考</a>
-        </div>
-        <p class="slide-hint">向下滑动，一屏一屏看</p>
+        <h1 class="name">Dingjun.</h1>
+        <p class="lede">一些想法，一些实验，一些尚未想明白的问题。</p>
+        <p class="slide-hint">往下走</p>
       </div>
     </section>
+
+    <section class="slide" id="picked" data-section="picked">
+      <div class="slide-inner">
+        <header class="page-head">
+          <p class="eyebrow">Picked</p>
+          <h1>先看这几篇</h1>
+          <p class="page-desc">不知道从哪看起的话，这四篇大概能说明这里是什么地方。</p>
+        </header>
+        <div class="list list--tight">
+          <article class="list-item">
+            <div class="list-meta">
+              <span>系统拆解</span>
+              <span class="cat">NutriFit</span>
+            </div>
+            <h2><a href="systems/hybrid-retrieval.html">为什么我给 BM25 留了 35%</a></h2>
+            <p>向量负责语义，关键词负责型号和数值。一个检索参数背后的三次取舍。</p>
+          </article>
+
+          <article class="list-item">
+            <div class="list-meta">
+              <span>产品创意拆解</span>
+              <span class="cat">出行</span>
+            </div>
+            <h2><a href="articles/dog-cup.html">狗狗的随行杯</a></h2>
+            <p>把水杯和食盆合成一件：省掉的不是空间，是「带狗出门要带几样东西」这件事。</p>
+          </article>
+
+          <article class="list-item">
+            <div class="list-meta">
+              <span>项目</span>
+              <span class="cat">健康</span>
+            </div>
+            <h2><a href="projects/nutrifit.html">NutriFit AI</a></h2>
+            <p>拍一张照片估热量，每条营养建议都能指回原文。</p>
+          </article>
+
+          <article class="list-item">
+            <div class="list-meta">
+              <span>思考</span>
+              <span class="cat">读书笔记</span>
+            </div>
+            <h2><a href="posts/seven-questions.html">一篇笔记，一个问题</a></h2>
+            <p>按书归档，读完就死；按问题归档，才会互相打架。</p>
+          </article>
+        </div>
+        <p class="slide-more"><a href="articles/index.html">全部文章 -></a></p>
+      </div>
+    </section>
+
     <section class="slide" id="projects" data-section="projects">
       <div class="slide-inner">
         <header class="page-head">
           <p class="eyebrow">Projects</p>
           <h1>项目</h1>
-          <p class="page-desc">把做过的事说清楚：解决了什么、怎么做的、结果如何。</p>
+          <p class="page-desc">三个 AI 应用，一个开源的 macOS Skill。点进去能看到界面、当时的取舍，以及哪里还没做完。</p>
         </header>
         <div class="list list--tight">
           <article class="list-item">
             <div class="list-meta">
               <span>2026</span>
-              <span class="cat">AI 应用</span>
+              <span class="cat">AI 应用 / 汽车销售</span>
             </div>
-            <h2><a href="projects.html">NEV Insight</a></h2>
-            <p>新能源汽车智能推荐与销售决策平台：客户画像出 Top 5 车型，混合检索兜住带硬条件的问法。</p>
+            <h2><a href="projects/nev-insight.html">NEV Insight</a></h2>
+            <p>把一次看车对话，变成一份能接着往下走的推荐。</p>
           </article>
 
           <article class="list-item">
             <div class="list-meta">
               <span>2026</span>
-              <span class="cat">AI 应用</span>
+              <span class="cat">AI 应用 / 健康</span>
             </div>
-            <h2><a href="projects.html">NutriFit AI</a></h2>
-            <p>健康轻食营养顾问：拍照识别估热量，每条营养建议都带引用来源。</p>
+            <h2><a href="projects/nutrifit.html">NutriFit AI</a></h2>
+            <p>把「今天吃了多少」变成数字，拍一张或者手填一行。</p>
           </article>
 
           <article class="list-item">
             <div class="list-meta">
               <span>2026</span>
-              <span class="cat">AI 应用</span>
+              <span class="cat">AI 应用 / 医疗</span>
             </div>
-            <h2><a href="projects.html">医路通 Agent Pro</a></h2>
-            <p>多智能体医疗问诊：症状进，风险分层与科室出，结论全部可追溯到证据。</p>
+            <h2><a href="projects/medix.html">医路通 Agent Pro</a></h2>
+            <p>不追求回答得像医生，而是每条结论都能指出它从哪来。</p>
           </article>
 
           <article class="list-item">
             <div class="list-meta">
               <span>2026</span>
-              <span class="cat">开源 Skill</span>
+              <span class="cat">开源 Skill / macOS</span>
             </div>
-            <h2><a href="projects.html">mac-checkup</a></h2>
-            <p>给 Agent 用的 macOS 体检流程：只读扫描、出报告、逐条确认，才允许动手。</p>
+            <h2><a href="projects/mac-checkup.html">mac-checkup</a></h2>
+            <p>电脑空间快满、又怕删错东西时，先查清楚，再决定动什么。</p>
           </article>
         </div>
         <p class="slide-more"><a href="projects.html">打开项目页 -></a></p>
@@ -157,7 +197,7 @@
         <header class="page-head">
           <p class="eyebrow">Writing</p>
           <h1>文章</h1>
-          <p class="page-desc">两个系列：拆自己的系统，和拆别人的产品。</p>
+          <p class="page-desc">两个系列：一个拆自己做的系统，一个拆别人的产品。</p>
         </header>
         <div class="list">
           <article class="list-item">
@@ -165,7 +205,7 @@
               <span>系列 01</span>
               <span class="cat">系统拆解</span>
             </div>
-            <h2><a href="articles/index.html">把自己做的系统拆开看</a></h2>
+            <h2><a href="articles/systems.html">把自己做的系统拆开看</a></h2>
             <p>为什么 BM25 要占 35%、记忆什么时候该关掉、合规为什么写在模型之后。只写能对着代码核实的东西。</p>
           </article>
           <article class="list-item">
@@ -173,7 +213,7 @@
               <span>系列 02</span>
               <span class="cat">产品创意拆解</span>
             </div>
-            <h2><a href="articles/index.html">把 17 件小产品拆到能复用的程度</a></h2>
+            <h2><a href="articles/ideas.html">把 17 件小产品拆到能复用的程度</a></h2>
             <p>同一张表问九遍：替谁省了什么成本，抽掉实体还剩哪条思路，这条思路搬到 AI 产品上是什么机会。</p>
           </article>
         </div>
@@ -186,7 +226,7 @@
         <header class="page-head">
           <p class="eyebrow">Thoughts</p>
           <h1>思考</h1>
-          <p class="page-desc">不急着结论的文字：关于选择、节奏，以及想成为什么样的人。</p>
+          <p class="page-desc">读书、方法、以及还没想清楚的事。</p>
         </header>
         <div class="list">
           <article class="list-item">
@@ -218,16 +258,16 @@
           <h1>关于</h1>
         </header>
         <div class="prose">
-          <p>你好，我是 <strong>Dingjun</strong>。</p>
-          <p>硕士期间一半时间在推公式，一半时间在写代码。现在把这两件事接在一起：从一句话的需求，到能跑起来、能交给人用的系统。</p>
-          <p>三篇基础数学论文在投，还在审稿中。数学的周期长，所以我没写成「已发表」。</p>
+          <p>我是 Dingjun。一半时间在推公式，一半时间在写代码，中间那部分时间在琢磨一些小产品的设计。</p>
+          <p>数学教我「结论要能被证明」，写代码教我「想法要能被人用上」。这两件事看起来很不一样，但都从同一个动作开始：把问题问清楚。</p>
+          <p>完成了三篇基础数学方向的论文写作。比起把它们放成一张成果清单，我更愿意把研究里遇到的问题和想通一个证明时的瞬间留在这里。</p>
           <h2>联系</h2>
           <p>
             邮箱：<a href="mailto:hi@dingjunn.com">hi@dingjunn.com</a><br />
-            网站：<a href="https://dingjunn.com">dingjunn.com</a>
+            GitHub：<a href="https://github.com/DJ723">github.com/DJ723</a>
           </p>
         </div>
-        <p class="slide-more"><a href="about.html">打开关于页 →</a></p>
+        <p class="slide-more"><a href="about.html">打开关于页 -></a></p>
       </div>
     </section>
     </div>
@@ -235,7 +275,7 @@
 
   <footer class="footer-bar" aria-hidden="true">
     <span>UTF-8</span>
-    <span id="st-page">PAGE 1/5</span>
+    <span id="st-page">PAGE 1/6</span>
     <span id="st-sec">home</span>
     <span>UPTIME <span id="st-up">00:00</span></span>
   </footer>

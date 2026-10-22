@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Dingjun 的项目 — AI 应用与工具，含代码仓库与界面截图。" />
+  <meta name="description" content="Dingjun 的项目：三个 AI 应用与一个开源的 macOS 体检 Skill，每个都带界面、取舍和边界说明。" />
   <title>项目 · Dingjun</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="projects.css" />
@@ -16,18 +16,10 @@
     <div class="stars stars-b" data-depth="0.34"></div>
     <div class="stars stars-c" data-depth="0.48"></div>
     <div class="meteor-shower">
-      <span class="shoot shoot-1"></span>
-      <span class="shoot shoot-2"></span>
-      <span class="shoot shoot-3"></span>
-      <span class="shoot shoot-4"></span>
-      <span class="shoot shoot-5"></span>
-      <span class="shoot shoot-6"></span>
-      <span class="shoot shoot-7"></span>
-      <span class="shoot shoot-8"></span>
-      <span class="shoot shoot-9"></span>
-      <span class="shoot shoot-10"></span>
-      <span class="shoot shoot-11"></span>
-      <span class="shoot shoot-12"></span>
+      <span class="shoot shoot-1"></span><span class="shoot shoot-2"></span><span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span><span class="shoot shoot-5"></span><span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span><span class="shoot shoot-8"></span><span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span><span class="shoot shoot-11"></span><span class="shoot shoot-12"></span>
     </div>
   </div>
 
@@ -45,101 +37,68 @@
     <header class="page-head">
       <p class="eyebrow">Projects</p>
       <h1>项目</h1>
-      <p class="page-desc">三个 AI 应用和一个开源的 Agent Skill。都做到能跑起来、能演示、代码公开。</p>
+      <p class="page-desc">三个 AI 应用，一个开源的 macOS Skill。点进去能看到界面、当时的取舍，以及哪些地方还没做完。</p>
     </header>
 
-    <article class="proj">
-      <div class="proj-media">
-        <img src="assets/projects/nev-1.jpg" alt="NEV Insight 销售总览界面" loading="lazy" />
-        <img src="assets/projects/nev-2.jpg" alt="NEV Insight 智能客服的多 Agent 调用链" loading="lazy" />
-      </div>
-      <div class="proj-body">
-        <p class="proj-meta">2026 <span class="cat">AI 应用 / 汽车销售</span></p>
-        <h2>NEV Insight</h2>
-        <p class="proj-sub">新能源汽车智能推荐与销售决策平台</p>
-        <p class="proj-desc">面向门店顾问和线上导购的选车工作台。客户报一次预算和关注点，系统给出 Top 5 车型推荐、竞品对比和可追溯的回答依据，并把这次沟通沉淀成能跟进的线索。</p>
-        <ul class="proj-points">
-          <li>推荐和客服拆成两个 Agent：一个按客户画像排序车型，一个基于 RAG 与联网搜索回答「这个价位谁的智驾更强」，调用链在界面上直接可见</li>
-          <li>检索用混合检索（向量 + 关键词）兜住「续航 700km 以上」这类带硬条件的问法</li>
-          <li>线索库把画像、推荐结果、跟进动作串成一条，避免推荐完就断掉</li>
-        </ul>
-        <ul class="tags">
-          <li>FastAPI</li><li>Vue3</li><li>TypeScript</li><li>SQLite</li><li>RAG</li><li>多 Agent</li>
-        </ul>
-        <p class="proj-links"><a href="https://github.com/DJ723/nev-insight" rel="noopener">代码 -&gt;</a></p>
+    <article class="pj">
+      <a class="pj-thumb" href="projects/nev-insight.html" tabindex="-1" aria-hidden="true">
+        <img src="assets/projects/nev-02.jpg" alt="" loading="lazy" />
+      </a>
+      <div class="pj-body">
+        <p class="pj-meta">2026 · AI 应用 / 汽车销售</p>
+        <h2><a href="projects/nev-insight.html">NEV Insight</a></h2>
+        <p class="pj-sub">把一次看车对话，变成一份能接着往下走的推荐。</p>
+        <p class="pj-links">
+          <a href="projects/nev-insight.html">看详情 &rarr;</a>
+          <a href="https://github.com/DJ723/nev-insight" rel="noopener">GitHub</a>
+        </p>
       </div>
     </article>
 
-    <article class="proj">
-      <div class="proj-media">
-        <img src="assets/projects/nutrifit-1.jpg" alt="NutriFit AI 健康总览界面" loading="lazy" />
-        <img src="assets/projects/nutrifit-2.jpg" alt="NutriFit AI 拍照识别热量的饮食记录" loading="lazy" />
-      </div>
-      <div class="proj-body">
-        <p class="proj-meta">2026 <span class="cat">AI 应用 / 健康</span></p>
-        <h2>NutriFit AI</h2>
-        <p class="proj-sub">健康轻食营养顾问平台</p>
-        <p class="proj-desc">给轻食品牌和体重管理场景做的营养客服。先算基础代谢与推荐热量区间，再靠饮食记录和拍照识别把「今天吃了多少」变成数字，问答里每条营养建议都带引用来源。</p>
-        <ul class="proj-points">
-          <li>食物图片识别估热量：不要求用户逐项称重输入，拍一张照片就能落进记录</li>
-          <li>Agent 走 Plan-and-Solve + ReAct + Reflection，先规划再检索，最后自检答案有没有超出证据范围</li>
-          <li>记忆分两层：会话内短期记忆，加上长期身体指标记忆，回访时不用重填档案</li>
-        </ul>
-        <ul class="tags">
-          <li>Vue3</li><li>FastAPI</li><li>RAG</li><li>视觉识别</li><li>Agent</li>
-        </ul>
-        <p class="proj-links"><a href="https://github.com/DJ723/nutrifit-ai" rel="noopener">代码 -&gt;</a></p>
+    <article class="pj">
+      <a class="pj-thumb" href="projects/nutrifit.html" tabindex="-1" aria-hidden="true">
+        <img src="assets/projects/nf-02.jpg" alt="" loading="lazy" />
+      </a>
+      <div class="pj-body">
+        <p class="pj-meta">2026 · AI 应用 / 健康</p>
+        <h2><a href="projects/nutrifit.html">NutriFit AI</a></h2>
+        <p class="pj-sub">把「今天吃了多少」变成数字，拍一张或者手填一行。</p>
+        <p class="pj-links">
+          <a href="projects/nutrifit.html">看详情 &rarr;</a>
+          <a href="https://github.com/DJ723/nutrifit-ai" rel="noopener">GitHub</a>
+        </p>
       </div>
     </article>
 
-    <article class="proj">
-      <div class="proj-media">
-        <img src="assets/projects/medix-1.jpg" alt="医路通智能分诊界面" loading="lazy" />
-        <img src="assets/projects/medix-2.jpg" alt="医路通管理后台" loading="lazy" />
-      </div>
-      <div class="proj-body">
-        <p class="proj-meta">2026 <span class="cat">AI 应用 / 医疗</span></p>
-        <h2>医路通 Agent Pro</h2>
-        <p class="proj-sub">多智能体医疗问诊平台</p>
-        <p class="proj-desc">互联网医院场景：患者描述症状，系统给出风险分层、建议科室和就诊紧迫度，再进入线上问诊、报告解读与预约挂号，另配一套独立的管理后台。</p>
-        <ul class="proj-points">
-          <li>结论必须可追溯：每条建议都挂 RAG 证据和 Agent 推理链路，不做「黑盒给个结果」</li>
-          <li>化验单、CT 报告走视觉模型解析成结构化指标，再给异常原因解读与复查建议</li>
-          <li>分诊、问诊、用药咨询各自独立编排，避免一个 Agent 同时承担互相冲突的目标</li>
-        </ul>
-        <ul class="tags">
-          <li>FastAPI</li><li>Vue3</li><li>Chroma</li><li>RAG</li><li>多 Agent</li>
-        </ul>
-        <p class="proj-links"><a href="https://github.com/DJ723/medix-agent-pro" rel="noopener">代码 -&gt;</a></p>
+    <article class="pj">
+      <a class="pj-thumb" href="projects/medix.html" tabindex="-1" aria-hidden="true">
+        <img src="assets/projects/mx-01.jpg" alt="" loading="lazy" />
+      </a>
+      <div class="pj-body">
+        <p class="pj-meta">2026 · AI 应用 / 医疗</p>
+        <h2><a href="projects/medix.html">医路通 Agent Pro</a></h2>
+        <p class="pj-sub">不追求回答得像医生，而是每条结论都能指出它从哪来。</p>
+        <p class="pj-links">
+          <a href="projects/medix.html">看详情 &rarr;</a>
+          <a href="https://github.com/DJ723/medix-agent-pro" rel="noopener">GitHub</a>
+        </p>
       </div>
     </article>
 
-    <article class="proj">
-      <div class="proj-media">
-        <pre class="proj-code"><span># 只读扫描，不改任何东西</span>
-zsh scripts/scan.sh &gt; /tmp/checkup.md
-
-<span># 睡眠与唤醒统计</span>
-python3 scripts/wake-stats.py --days 7
-
-<span># 先看改动计划，再决定要不要应用</span>
-zsh scripts/apply-power.sh --dry-run
-zsh scripts/apply-power.sh --rollback</pre>
-      </div>
-      <div class="proj-body">
-        <p class="proj-meta">2026 <span class="cat">开源 Skill / macOS</span></p>
-        <h2>mac-checkup</h2>
-        <p class="proj-sub">给 Agent 用的 macOS 体检流程</p>
-        <p class="proj-desc">磁盘、睡眠策略、电池健康、后台自启，四项一次查完。它真正要解决的不是「怎么查」，而是「查完之后怎么不搞坏别人的电脑」。</p>
-        <ul class="proj-points">
-          <li>四阶段硬流程：只读扫描 → 出报告 → 用户逐条确认 → 才动手，任何一步都不许跳</li>
-          <li>五个脚本各管一件事：扫描、安全清理（只进废纸篓、拒绝受保护路径）、电源策略应用与回滚、睡眠日志统计、充电上限提醒</li>
-          <li>references 里写的是真踩过的坑：移进废纸篓不释放空间、macOS 没有「合盖=休眠」、80% 充电上限没有命令行开关</li>
-        </ul>
-        <ul class="tags">
-          <li>Shell</li><li>Python</li><li>launchd</li><li>Agent Skill</li>
-        </ul>
-        <p class="proj-links"><a href="https://github.com/DJ723/computer_skill" rel="noopener">代码 -&gt;</a></p>
+    <article class="pj">
+      <a class="pj-thumb" href="projects/mac-checkup.html" tabindex="-1" aria-hidden="true">
+        <div class="pj-thumb-fallback">
+          <span>scan</span><span>report</span><span>confirm</span><span>apply</span>
+        </div>
+      </a>
+      <div class="pj-body">
+        <p class="pj-meta">2026 · 开源 Skill / macOS</p>
+        <h2><a href="projects/mac-checkup.html">mac-checkup</a></h2>
+        <p class="pj-sub">电脑空间快满、又怕删错东西时，先查清楚，再决定动什么。</p>
+        <p class="pj-links">
+          <a href="projects/mac-checkup.html">看详情 &rarr;</a>
+          <a href="https://github.com/DJ723/computer_skill" rel="noopener">GitHub</a>
+        </p>
       </div>
     </article>
   </main>

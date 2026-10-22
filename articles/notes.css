@@ -257,3 +257,103 @@
 .series .list {
   margin-top: 1.5rem;
 }
+
+/* 文章总入口：两个系列像两个文件夹 */
+.folders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.folder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 15rem;
+  padding: 1.7rem 1.6rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(120, 150, 200, 0.035);
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+
+.folder:hover {
+  border-color: rgba(215, 179, 122, 0.42);
+  background: rgba(120, 150, 200, 0.06);
+  transform: translateY(-3px);
+}
+
+.folder:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 4px;
+}
+
+.folder-no {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.folder h2 {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.folder-desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.folder-pick {
+  color: var(--faint);
+  font-size: 0.86rem;
+  border-left: 2px solid var(--line);
+  padding-left: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+.folder-go {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .folders {
+    grid-template-columns: 1fr;
+  }
+
+  .folder {
+    min-height: 0;
+  }
+}
+
+/* 详情页顶部的返回系列 */
+.td-crumb {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--faint);
+  margin-bottom: 1.5rem;
+}
+
+.td-crumb a {
+  color: var(--faint);
+  transition: color 0.25s var(--ease);
+}
+
+.td-crumb a:hover {
+  color: var(--accent);
+}
+
+/* 系列页标题区里的方法入口，和描述拉开一点 */
+.page-head .td-method-link {
+  margin-top: 1rem;
+}

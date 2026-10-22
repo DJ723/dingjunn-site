@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="医路通 Agent Pro：互联网医院场景的多智能体问诊演示系统，结论带证据链，安全边界写在代码里。" />
+  <title>医路通 Agent Pro · 项目 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="detail.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span><span class="shoot shoot-2"></span><span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span><span class="shoot shoot-5"></span><span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span><span class="shoot shoot-8"></span><span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span><span class="shoot shoot-11"></span><span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a class="is-active" href="../projects.html">项目</a>
+      <a href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <p class="pd-crumb"><a href="../projects.html">&larr; 项目</a></p>
+
+    <header class="page-head">
+      <p class="eyebrow">2026 · AI 应用 / 医疗</p>
+      <h1>医路通 Agent Pro</h1>
+      <p class="page-desc">在医疗场景里，一个说得太顺的答案是危险的。所以我做的不是「回答得像医生」，而是「每条结论都能指出它从哪来」。</p>
+    </header>
+
+    <p class="pd-lead">患者描述症状之后，系统给出风险分层、建议科室和就诊紧迫度，再进入线上问诊、报告解读或预约挂号。每一步旁边都能展开：它查了什么、谁在推理、引用了哪段资料。</p>
+
+    <section class="pd-section">
+      <h2>这是做什么的</h2>
+      <p>互联网医院场景的多智能体问诊系统。前台六个模块：智能分诊台、线上问诊、问诊记录、报告查询、预约挂号、系统设置；另有一套独立的管理后台。</p>
+    </section>
+
+    <section class="pd-section">
+      <h2>实际长什么样</h2>
+
+      <figure class="pd-shot pd-shot--lead">
+        <img src="../assets/projects/mx-01.jpg" alt="医路通智能分诊台，左侧对话与右侧思考过程面板" loading="eager" />
+        <figcaption><strong>智能分诊台</strong>家长问「吃美林退到 38 度又升上来要不要去急诊」，回答先说结论性判断，再给判断依据。右侧的「思考过程」列出这次经过了哪些 Agent、各自负责什么。</figcaption>
+      </figure>
+
+      <figure class="pd-shot pd-shot--lead">
+        <img src="../assets/projects/mx-02.jpg" alt="医路通线上问诊界面" loading="lazy" />
+        <figcaption><strong>线上问诊</strong>支持连续追问、上传化验单与 CT 报告，右上角是三个开关：深度检索、Swarm 多 Agent、RAG 证据引用——关掉证据引用就能看到不加约束的回答长什么样，对比很直观。</figcaption>
+      </figure>
+
+      <div class="pd-pair">
+        <figure class="pd-shot">
+          <img src="../assets/projects/mx-03.jpg" alt="医路通报告查询，胸部 CT 报告解析" loading="lazy" />
+          <figcaption><strong>报告查询</strong>上传影像或检验报告，解析成结构化指标，再给异常原因、复查建议和推荐科室。图上这份是模拟样例。</figcaption>
+        </figure>
+        <figure class="pd-shot">
+          <img src="../assets/projects/mx-04.jpg" alt="医路通预约挂号" loading="lazy" />
+          <figcaption><strong>预约挂号</strong>分诊给出科室之后，下一步就是挂上号——这一步断了，前面的建议就只是建议。</figcaption>
+        </figure>
+      </div>
+
+      <div class="pd-pair">
+        <figure class="pd-shot">
+          <img src="../assets/projects/mx-05.jpg" alt="医路通系统设置" loading="lazy" />
+          <figcaption><strong>个人中心</strong>手机号、性别年龄、住址，以及慢病史、过敏史和用药史——这些是后面每一次推理的前提。</figcaption>
+        </figure>
+        <figure class="pd-shot">
+          <img src="../assets/projects/mx-06.jpg" alt="医路通管理后台" loading="lazy" />
+          <figcaption><strong>管理后台</strong>会话、报告、问诊记录的数量，以及问诊场景和报告类型的分布。另有一套独立前端，和患者端分开。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="pd-section">
+      <h2>为什么这样设计</h2>
+      <ul class="pd-choices">
+        <li>
+          <span class="no">01</span>
+          <div>
+            <h3>记忆不是越多越好，要按意图开关</h3>
+            <p>系统把问题分成七种意图，每种意图单独决定「读不读长期记忆」和「证据优先级给谁」。分诊时强制关掉记忆——此刻的症状不该被半年前的体检报告稀释；而「和上次比是不是降了」这类问题，本轮报告才是主证据。这套开关写在策略表里，不是靠提示词求模型自觉。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">02</span>
+          <div>
+            <h3>合规不放在提示词里，放在输出之后</h3>
+            <p>「不要说确诊」写在系统提示词里，只是降低了概率，没有形成约束。真正起作用的是跑在模型输出之后的一层确定性代码：命中禁止表述就改写、必要处补免责声明。它不管你前面怎么推理，只看最后那句话能不能出门。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">03</span>
+          <div>
+            <h3>结论必须能指回去</h3>
+            <p>分诊、用药、报告解读各自独立编排，避免一个 Agent 同时承担互相冲突的目标；每条结论旁边挂检索证据和推理链路，界面上可以逐条点开。做得不完美，但方向是「可核查」而不是「听起来专业」。</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="pd-section">
+      <h2>边界与还没做完的</h2>
+      <p class="pd-note">这是一个技术演示系统，不是可以接诊的医疗服务。页面里的对话、报告和指标都是演示数据，不能用于任何真实的健康决策。</p>
+      <p class="pd-note">分诊给出的风险分层是提示，不是诊断；报告解析里的置信度是模型自评，不代表医学意义上的准确性。</p>
+      <p class="pd-note">这个项目起步于一份现成的产品模板，我做的是工程化落地：检索、意图路由、合规后处理、证据链和部署都是后来补的。这点写清楚比含糊过去更合适。</p>
+      <p class="pd-note">后处理能拦住已知的措辞模式，拦不住绕开措辞的错误结论。真正的安全性要靠评测集和人工复核，这部分我还没有做完。</p>
+    </section>
+
+    <div class="pd-foot">
+      <ul class="tags">
+        <li>FastAPI</li><li>Vue 3</li><li>Chroma</li><li>RAG</li><li>多 Agent</li>
+      </ul>
+      <p class="pd-links">
+        <a href="https://github.com/DJ723/medix-agent-pro" rel="noopener">GitHub &rarr;</a>
+        <a href="../systems/triage-rules.html">合规为什么写在模型之后 &rarr;</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../projects.html">回到项目</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

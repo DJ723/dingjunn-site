@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="自己项目里的设计决定、取舍和踩到的坑。" />
+  <title>系统拆解 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="notes.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span>
+      <span class="shoot shoot-2"></span>
+      <span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span>
+      <span class="shoot shoot-5"></span>
+      <span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span>
+      <span class="shoot shoot-8"></span>
+      <span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span>
+      <span class="shoot shoot-11"></span>
+      <span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="../projects.html">项目</a>
+      <a class="is-active" href="index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <p class="td-crumb"><a href="index.html">&larr; 文章</a></p>
+
+    <header class="page-head">
+      <p class="eyebrow">系列 01</p>
+      <h1>系统拆解</h1>
+      <p class="page-desc">不写教程，只写当时为什么这么决定、事后发现哪里没想清楚。</p>
+    </header>
+
+    <div class="list">
+      <article class="list-item">
+        <div class="list-meta">
+          <span>01</span>
+          <span class="cat">检索</span>
+        </div>
+        <h2><a href="../systems/hybrid-retrieval.html">为什么我给 BM25 留了 35%</a></h2>
+        <p>向量负责语义，BM25 负责型号和数值。两路分数怎么合、为什么没选 RRF、为什么还没上 Rerank。</p>
+        <ul class="tags"><li>NutriFit</li><li>混合检索</li><li>取舍</li></ul>
+      </article>
+      <article class="list-item">
+        <div class="list-meta">
+          <span>02</span>
+          <span class="cat">记忆</span>
+        </div>
+        <h2><a href="../systems/memory-routing.html">记忆最难的不是存，是决定什么时候别读</a></h2>
+        <p>七种意图对应七套开关。分诊时强制关掉记忆，传了新报告时让记忆退到对照位。</p>
+        <ul class="tags"><li>医路通</li><li>意图路由</li><li>证据优先级</li></ul>
+      </article>
+      <article class="list-item">
+        <div class="list-meta">
+          <span>03</span>
+          <span class="cat">合规</span>
+        </div>
+        <h2><a href="../systems/triage-rules.html">合规不写进提示词，写进后处理</a></h2>
+        <p>「不能说确诊」放在提示词里等于没有约束。真正拦住它的，是跑在模型输出之后的一层确定性代码。</p>
+        <ul class="tags"><li>医路通</li><li>输出护栏</li><li>风险分层</li></ul>
+      </article>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../index.html">回到首页</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

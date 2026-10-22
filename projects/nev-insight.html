@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="NEV Insight：面向汽车门店的智能推荐与销售决策平台，客户画像出候选车型，回答带检索依据，沟通沉淀成线索。" />
+  <title>NEV Insight · 项目 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="detail.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span><span class="shoot shoot-2"></span><span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span><span class="shoot shoot-5"></span><span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span><span class="shoot shoot-8"></span><span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span><span class="shoot shoot-11"></span><span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a class="is-active" href="../projects.html">项目</a>
+      <a href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <p class="pd-crumb"><a href="../projects.html">&larr; 项目</a></p>
+
+    <header class="page-head">
+      <p class="eyebrow">2026 · AI 应用 / 汽车销售</p>
+      <h1>NEV Insight</h1>
+      <p class="page-desc">门店顾问和客户聊完一次之后，往往只剩一张写着预算的便签。这个项目想解决的是：怎么把那次对话变成一份能接着往下走的推荐。</p>
+    </header>
+
+    <p class="pd-lead">客户报一次预算、通勤距离和在意什么，系统给出五台候选车型、同价位竞品对比，以及每句结论的依据。顾问看到的不只是一个排序，而是「为什么是这几台」。</p>
+
+    <section class="pd-section">
+      <h2>这是做什么的</h2>
+      <p>面向新能源门店的销售工作台。左边是六个模块：销售总览、智能推荐、智能客服、竞品对比、销售线索、系统设置。顾问按真实接待流程走一遍，从接住需求到留下线索都在同一个界面里完成。</p>
+    </section>
+
+    <section class="pd-section">
+      <h2>实际长什么样</h2>
+
+      <figure class="pd-shot pd-shot--lead">
+        <img src="../assets/projects/nev-01.jpg" alt="NEV Insight 销售总览界面" loading="eager" />
+        <figcaption><strong>销售总览</strong>车型库规模、累计生成的推荐次数、客户平均预算和知识片段数放在同一屏。它是入口，不是报表。</figcaption>
+      </figure>
+
+      <figure class="pd-shot pd-shot--lead">
+        <img src="../assets/projects/nev-02.jpg" alt="NEV Insight 智能推荐界面，输入自然语言购车需求" loading="lazy" />
+        <figcaption><strong>智能推荐</strong>可以直接写一段话：「预算 25 万以内，三口之家，上海通勤每天 50 公里，有家充，关注续航、空间和智驾」。下面的预算与偏好控件是可选的补充，不逼着人填表。</figcaption>
+      </figure>
+
+      <div class="pd-pair">
+        <figure class="pd-shot">
+          <img src="../assets/projects/nev-03.jpg" alt="NEV Insight 智能客服的多 Agent 调用链" loading="lazy" />
+          <figcaption><strong>智能客服</strong>回答按「直接结论 &rarr; 判断依据 &rarr; 下一步」组织，右上角可以在本地知识库和联网搜索之间切换。</figcaption>
+        </figure>
+        <figure class="pd-shot">
+          <img src="../assets/projects/nev-04.jpg" alt="NEV Insight 竞品对比" loading="lazy" />
+          <figcaption><strong>竞品对比</strong>挑两三台车放一起，按价格、续航、空间、智驾、补能和场景打分，结果可以导出 CSV。</figcaption>
+        </figure>
+      </div>
+
+      <div class="pd-pair">
+        <figure class="pd-shot">
+          <img src="../assets/projects/nev-05.jpg" alt="NEV Insight 销售线索" loading="lazy" />
+          <figcaption><strong>销售线索</strong>画像、推荐结果、跟进动作串成一条，换人接手也不用重新问一遍。</figcaption>
+        </figure>
+        <figure class="pd-shot">
+          <img src="../assets/projects/nev-06.jpg" alt="NEV Insight 系统设置" loading="lazy" />
+          <figcaption><strong>系统设置</strong>模型与接口地址、知识库重建、运行数据清理都在这一页，出问题先看这里。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="pd-section">
+      <h2>为什么这样设计</h2>
+      <ul class="pd-choices">
+        <li>
+          <span class="no">01</span>
+          <div>
+            <h3>推荐和客服拆成两个 Agent</h3>
+            <p>排序要的是收敛，答疑要的是发散。放在同一个 Agent 里，模型会一边推荐一边给自己找理由。拆开之后，推荐只负责按画像排候选，客服只负责用检索结果回答，调用链在界面上看得见。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">02</span>
+          <div>
+            <h3>检索用混合而不是纯向量</h3>
+            <p>「续航 700km 以上」「五座」「25 万以内」这类条件，向量检索给出的相似度很不可靠。所以检索走了向量加关键词两路，把硬条件交给关键词那一路兜住。具体怎么融合写在系统拆解里。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">03</span>
+          <div>
+            <h3>推荐完不能断掉</h3>
+            <p>推荐结果如果只停在页面上，客户一走就断了。所以线索表把客户关注点、推荐车型和下一步动作写在同一行里，换人接手也不用重新问一遍——这也是门店真正在意的部分。</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="pd-section">
+      <h2>边界与还没做完的</h2>
+      <p class="pd-note">「Top 5」是按客户画像排序出来的候选，不是经过验证的推荐准确率。我没有真实门店的成交数据，说不出「采用后成交率提升多少」这种话。</p>
+      <p class="pd-note">车型库和线索数据是演示数据，用来把流程跑通。接入真实车源需要另外做数据清洗和字段映射。</p>
+      <p class="pd-note">联网增强依赖外部搜索，回答质量受制于搜到的来源；搜不到时它会退回到知识库，而不是硬编一个答案。</p>
+    </section>
+
+    <div class="pd-foot">
+      <ul class="tags">
+        <li>FastAPI</li><li>Vue 3</li><li>TypeScript</li><li>SQLite</li><li>RAG</li><li>多 Agent</li>
+      </ul>
+      <p class="pd-links">
+        <a href="https://github.com/DJ723/nev-insight" rel="noopener">GitHub &rarr;</a>
+        <a href="../systems/hybrid-retrieval.html">检索方案怎么定的 &rarr;</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../projects.html">回到项目</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

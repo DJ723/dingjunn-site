@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="NutriFit AI：健康轻食营养顾问，把「今天吃了多少」变成数字，营养问答带可复核的引用依据。" />
+  <title>NutriFit AI · 项目 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="detail.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span><span class="shoot shoot-2"></span><span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span><span class="shoot shoot-5"></span><span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span><span class="shoot shoot-8"></span><span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span><span class="shoot shoot-11"></span><span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a class="is-active" href="../projects.html">项目</a>
+      <a href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <p class="pd-crumb"><a href="../projects.html">&larr; 项目</a></p>
+
+    <header class="page-head">
+      <p class="eyebrow">2026 · AI 应用 / 健康</p>
+      <h1>NutriFit AI</h1>
+      <p class="page-desc">体重管理最难的不是「知道该少吃」，而是「不知道今天到底吃了多少」。这个项目把这件事变简单：拍一张，或者手填一行。</p>
+    </header>
+
+    <p class="pd-lead">先算基础代谢和推荐热量区间，再用饮食记录把「今天吃了多少」变成数字，最后用带引用来源的问答回答「减脂期晚餐怎么搭配」这类问题。</p>
+
+    <section class="pd-section">
+      <h2>这是做什么的</h2>
+      <p>给轻食品牌和体重管理场景做的营养顾问。五个模块分别对应五件事：看总体状态、记吃了什么、管理身体档案、查营养知识、调系统。</p>
+    </section>
+
+    <section class="pd-section">
+      <h2>实际长什么样</h2>
+
+      <figure class="pd-shot pd-shot--lead">
+        <img src="../assets/projects/nf-01.jpg" alt="NutriFit AI 健康总览界面" loading="eager" />
+        <figcaption><strong>健康总览</strong>今天已经摄入多少、距离建议目标还剩多少，右边再给一条基于剩余热量的建议。</figcaption>
+      </figure>
+
+      <figure class="pd-shot pd-shot--lead">
+        <img src="../assets/projects/nf-02.jpg" alt="NutriFit AI 热量记录，支持拍照识别与手动录入" loading="lazy" />
+        <figcaption><strong>热量记录</strong>左边拍照，识别出热量、份量和三大营养素；右边手动填。两条路都留着——识别不准的时候，人总要能改。</figcaption>
+      </figure>
+
+      <div class="pd-pair">
+        <figure class="pd-shot">
+          <img src="../assets/projects/nf-03.jpg" alt="NutriFit AI 身体管理，档案与指标评估" loading="lazy" />
+          <figcaption><strong>身体管理</strong>身高体重、活动水平、目标体重在这里，右侧给出 BMI、基础代谢和总消耗。</figcaption>
+        </figure>
+        <figure class="pd-shot">
+          <img src="../assets/projects/nf-04.jpg" alt="NutriFit AI 知识科普问答与知识库分布" loading="lazy" />
+          <figcaption><strong>知识科普</strong>按知识库回答，并给出可复核的证据；右边那张分布图是知识库覆盖了哪些主题。</figcaption>
+        </figure>
+      </div>
+
+      <figure class="pd-shot">
+        <img src="../assets/projects/nf-05.jpg" alt="NutriFit AI 系统设置" loading="lazy" />
+        <figcaption><strong>系统设置</strong>左边是模型配置，右边四个功能开关：图片识别、分析过程、长期记忆、风险提示。</figcaption>
+      </figure>
+    </section>
+
+    <section class="pd-section">
+      <h2>为什么这样设计</h2>
+      <ul class="pd-choices">
+        <li>
+          <span class="no">01</span>
+          <div>
+            <h3>识别和手填两条路并存</h3>
+            <p>拍照识别是「少做一步」，不是「不用做」。模型对一份宫保鸡丁给出的是估算值，用户看得见、改得动，记录才有意义。所以手填入口一直没去掉。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">02</span>
+          <div>
+            <h3>检索用 0.65 / 0.35 的加权融合</h3>
+            <p>营养库里大量是「鸡胸肉 100g 多少蛋白质」这种精确取值，纯向量检索给不出稳定信号。所以向量和关键词两路都走，按 0.65 与 0.35 加权合并，再限制同一份文档最多取两段，避免一段话占满整个上下文。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">03</span>
+          <div>
+            <h3>答案必须能指回原文</h3>
+            <p>营养建议这件事，说错了是有代价的。所以每条回答都挂引用片段，让人能自己核对到原文；这比让答案听起来专业重要得多。</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="pd-section">
+      <h2>边界与还没做完的</h2>
+      <p class="pd-note">食物识别的热量和份量都是估算。同一道菜不同做法差距很大，这里的数字只能用来做趋势参考，不能当成精确摄入。</p>
+      <p class="pd-note">页面上的营养建议属于科普信息，不是医学诊断，也不替代营养师或医生的意见。</p>
+      <p class="pd-note">向量是用字符 n-gram 哈希算的，不是神经 embedding。这是个明确的欠账，也正是我把关键词那一路保留 35% 权重的实际原因。</p>
+    </section>
+
+    <div class="pd-foot">
+      <ul class="tags">
+        <li>Vue 3</li><li>FastAPI</li><li>RAG</li><li>视觉识别</li><li>Agent</li>
+      </ul>
+      <p class="pd-links">
+        <a href="https://github.com/DJ723/nutrifit-ai" rel="noopener">GitHub &rarr;</a>
+        <a href="../systems/hybrid-retrieval.html">0.65 / 0.35 是怎么定的 &rarr;</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../projects.html">回到项目</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

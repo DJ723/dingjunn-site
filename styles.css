@@ -987,3 +987,115 @@ a:focus-visible,
   color: var(--accent);
   margin-right: 0.25rem;
 }
+
+/* 首屏：把名字和句子推开，留白比信息更重要 */
+.hero-slide .name {
+  font-size: clamp(3.8rem, 11vw, 6.8rem);
+  margin-bottom: 1.6rem;
+}
+
+.hero-slide .lede {
+  max-width: 22em;
+  line-height: 1.85;
+  margin-bottom: 0;
+}
+
+.hero-slide .slide-hint {
+  margin-top: clamp(2.5rem, 8vh, 5rem);
+}
+
+/* 精选屏：四条要有各自的呼吸，但必须一屏放得下 */
+#picked .page-head {
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+}
+
+#picked .page-head h1 {
+  font-size: clamp(2rem, 4.4vw, 2.9rem);
+  margin-bottom: 0.5rem;
+}
+
+#picked .list-item {
+  padding: 0.85rem 0;
+}
+
+#picked .list-item::before {
+  top: 1.5rem;
+}
+
+#picked .list-item h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+  margin-bottom: 0.3rem;
+}
+
+#picked .list-item > p {
+  font-size: 0.93rem;
+}
+
+#picked .slide-more {
+  display: none;
+}
+
+/* 关于页：数学那段要能安静地读 */
+.page-narrow .prose h2 {
+  margin-top: 2.4rem;
+}
+
+.page-narrow .prose h2:first-of-type {
+  margin-top: 2rem;
+}
+
+/* 项目屏：四条也要一屏放得下 */
+#projects .page-head {
+  margin-bottom: 1.3rem;
+  padding-bottom: 1rem;
+}
+
+#projects .page-head h1 {
+  font-size: clamp(2rem, 4.4vw, 2.9rem);
+  margin-bottom: 0.5rem;
+}
+
+#projects .list-item {
+  padding: 0.8rem 0;
+}
+
+#projects .list-item::before {
+  top: 1.45rem;
+}
+
+#projects .list-item h2 {
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  margin-bottom: 0.25rem;
+}
+
+#projects .list-item > p {
+  font-size: 0.92rem;
+}
+
+#projects .slide-more {
+  margin-top: 0.9rem;
+}
+
+/* 小屏：右侧页码标签会压到正文，收成纯编号并让出边距 */
+@media (max-width: 860px) {
+  .slide-dots {
+    right: 0.45rem;
+    gap: 0.55rem;
+  }
+
+  .dot::before,
+  .dot.is-active::before {
+    content: attr(data-index);
+    font-size: 0.7rem;
+    letter-spacing: 0;
+  }
+
+  .dot.is-active::before {
+    content: "·" attr(data-index);
+  }
+
+  .slide-inner {
+    padding-right: 2.3rem;
+  }
+}

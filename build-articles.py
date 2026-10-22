@@ -295,8 +295,10 @@ def build_case(num, title, slug, data, prev_case, next_case):
     pager_html = f'\n    <nav class="td-pager">{"".join(pager)}</nav>' if pager else ""
 
     main = f"""  <main class="page page-narrow">
+    <p class="td-crumb"><a href="ideas.html">&larr; 产品创意拆解</a></p>
+
     <header class="article-head">
-      <p class="eyebrow">Teardown {num} / 17</p>
+      <p class="eyebrow">Teardown {num}</p>
       <h1>{html.escape(title)}</h1>{tag_html}
     </header>{head_img}
 
@@ -309,9 +311,85 @@ def build_case(num, title, slug, data, prev_case, next_case):
     return shell(title, html.escape(value or title), main)
 
 
+SYSTEMS = [
+    ("01", "检索", "hybrid-retrieval.html", "为什么我给 BM25 留了 35%",
+     "向量负责语义，BM25 负责型号和数值。两路分数怎么合、为什么没选 RRF、为什么还没上 Rerank。",
+     ["NutriFit", "混合检索", "取舍"]),
+    ("02", "记忆", "memory-routing.html", "记忆最难的不是存，是决定什么时候别读",
+     "七种意图对应七套开关。分诊时强制关掉记忆，传了新报告时让记忆退到对照位。",
+     ["医路通", "意图路由", "证据优先级"]),
+    ("03", "合规", "triage-rules.html", "合规不写进提示词，写进后处理",
+     "「不能说确诊」放在提示词里等于没有约束。真正拦住它的，是跑在模型输出之后的一层确定性代码。",
+     ["医路通", "输出护栏", "风险分层"]),
+]
+
+
 def build_index(cases):
-    rows = []
+    """文章总入口：只放两个系列，不铺开全部文章。"""
     n = len(cases)
+    main = f"""  <main class="page">
+    <header class="page-head">
+      <p class="eyebrow">Writing</p>
+      <h1>文章</h1>
+      <p class="page-desc">两个系列，各写各的。一个拆自己做的系统，一个拆别人的产品。</p>
+    </header>
+
+    <div class="folders">
+      <a class="folder" href="systems.html">
+        <span class="folder-no">系列 01</span>
+        <h2>系统拆解</h2>
+        <p class="folder-desc">自己项目里的设计决定：为什么这么选、踩到了什么、哪笔账还没还。只写能对着代码核实的部分。</p>
+        <p class="folder-pick">先看：为什么我给 BM25 留了 35%</p>
+        <span class="folder-go">{len(SYSTEMS)} 篇 &rarr;</span>
+      </a>
+
+      <a class="folder" href="ideas.html">
+        <span class="folder-no">系列 02</span>
+        <h2>产品创意拆解</h2>
+        <p class="folder-desc">从日常小产品里抽出一条能搬到别处的思路，再看它长到 AI 产品上会变成什么机会。</p>
+        <p class="folder-pick">先看：狗狗的随行杯</p>
+        <span class="folder-go">{n} 篇 &rarr;</span>
+      </a>
+    </div>
+  </main>"""
+
+    return shell("文章", "两个系列：系统拆解与产品创意拆解。", main)
+
+
+def build_series_systems():
+    rows = "".join(
+        f"""      <article class="list-item">
+        <div class="list-meta">
+          <span>{num}</span>
+          <span class="cat">{cat}</span>
+        </div>
+        <h2><a href="../systems/{slug}">{title}</a></h2>
+        <p>{desc}</p>
+        <ul class="tags">{''.join(f'<li>{t}</li>' for t in tags)}</ul>
+      </article>
+"""
+        for num, cat, slug, title, desc, tags in SYSTEMS
+    )
+
+    main = f"""  <main class="page">
+    <p class="td-crumb"><a href="index.html">&larr; 文章</a></p>
+
+    <header class="page-head">
+      <p class="eyebrow">系列 01</p>
+      <h1>系统拆解</h1>
+      <p class="page-desc">不写教程，只写当时为什么这么决定、事后发现哪里没想清楚。</p>
+    </header>
+
+    <div class="list">
+{rows}    </div>
+  </main>"""
+
+    return shell("系统拆解", "自己项目里的设计决定、取舍和踩到的坑。", main)
+
+
+def build_series_ideas(cases):
+    n = len(cases)
+    rows = []
     for num, title, slug, data in cases:
         cat = data["tags"][-1] if data["tags"] else "案例"
         value = re.sub(r"\s+", " ", data.get("value", "")).strip()
@@ -328,68 +406,22 @@ def build_index(cases):
       </article>"""
         )
 
-    systems = [
-        ("01", "检索", "hybrid-retrieval.html", "为什么我给 BM25 留了 35%",
-         "向量负责语义，BM25 负责型号和数值。两路分数怎么合、为什么没选 RRF、为什么还没上 Rerank。",
-         ["NutriFit", "混合检索", "取舍"]),
-        ("02", "记忆", "memory-routing.html", "记忆最难的不是存，是决定什么时候别读",
-         "七种意图对应七套开关。分诊时强制关掉记忆，传了新报告时让记忆退到对照位。",
-         ["医路通", "意图路由", "证据优先级"]),
-        ("03", "合规", "triage-rules.html", "合规不写进提示词，写进后处理",
-         "「不能说确诊」放在提示词里等于没有约束。真正拦住它的，是跑在模型输出之后的一层确定性代码。",
-         ["医路通", "输出护栏", "风险分层"]),
-    ]
-    sys_rows = "".join(
-        f"""      <article class="list-item">
-        <div class="list-meta">
-          <span>{num}</span>
-          <span class="cat">{cat}</span>
-        </div>
-        <h2><a href="../systems/{slug}">{title}</a></h2>
-        <p>{desc}</p>
-        <ul class="tags">{''.join(f'<li>{t}</li>' for t in tags)}</ul>
-      </article>
-"""
-        for num, cat, slug, title, desc, tags in systems
-    )
-
     main = f"""  <main class="page">
+    <p class="td-crumb"><a href="index.html">&larr; 文章</a></p>
+
     <header class="page-head">
-      <p class="eyebrow">Writing</p>
-      <h1>文章</h1>
-      <p class="page-desc">两个系列：一个拆自己做的系统，一个拆别人的产品。</p>
+      <p class="eyebrow">系列 02</p>
+      <h1>产品创意拆解</h1>
+      <p class="page-desc">同一张表拆 {n} 件小产品：它替谁省掉了什么成本，抽掉实体之后还剩哪条可复用的思路。</p>
+      <p class="td-method-link"><a href="method.html">先看我是怎么拆的 &rarr;</a></p>
     </header>
 
-    <section class="series">
-      <div class="series-head">
-        <h2>系统拆解</h2>
-        <span class="series-count">{len(systems)} 篇</span>
-      </div>
-      <p class="series-desc">自己项目里的设计决定：为什么这么选、踩到了什么、哪笔账还没还。只写能对着代码核实的部分。</p>
-
-      <div class="list">
-{sys_rows}      </div>
-    </section>
-
-    <section class="series">
-      <div class="series-head">
-        <h2>产品创意拆解</h2>
-        <span class="series-count">{n} 篇</span>
-      </div>
-      <p class="series-desc">同一张表拆 {n} 件小产品：它替谁省掉了什么成本，抽掉实体之后还剩哪条可复用的思路，这条思路搬到 AI 产品上会长成什么样。</p>
-      <p class="td-method-link"><a href="method.html">先看拆解方法 -&gt;</a></p>
-
-      <div class="list">
+    <div class="list">
 {chr(10).join(rows)}
-      </div>
-    </section>
+    </div>
   </main>"""
 
-    return shell(
-        "文章",
-        f"系统拆解与产品创意拆解：{n} 个案例，同一套可迁移的分析框架。",
-        main,
-    )
+    return shell("产品创意拆解", f"{n} 件小产品，同一套可迁移的分析框架。", main)
 
 
 METHOD_STEPS = [
@@ -419,6 +451,8 @@ def build_method(cases_count):
         )
 
     main = f"""  <main class="page page-narrow">
+    <p class="td-crumb"><a href="ideas.html">&larr; 产品创意拆解</a></p>
+
     <header class="article-head">
       <p class="eyebrow">Method</p>
       <h1>我是怎么拆的</h1>
@@ -433,7 +467,7 @@ def build_method(cases_count):
 {chr(10).join(steps)}
     </ol>
 
-    <p class="td-method-link"><a href="index.html">看 {cases_count} 个案例 -&gt;</a></p>
+    <p class="td-method-link"><a href="ideas.html">看 {cases_count} 个案例 -&gt;</a></p>
   </main>"""
 
     return shell("我是怎么拆的", "一套用于拆解产品创意的九栏框架，以及把它迁移到 AI 产品的方法。", main)
@@ -472,8 +506,13 @@ def main():
         print(f"  {num} {title} -> {slug}.html")
 
     (OUT / "index.html").write_text(build_index(cases), encoding="utf-8")
+    (OUT / "systems.html").write_text(build_series_systems(), encoding="utf-8")
+    (OUT / "ideas.html").write_text(build_series_ideas(cases), encoding="utf-8")
     (OUT / "method.html").write_text(build_method(len(cases)), encoding="utf-8")
-    print(f"完成: articles/index.html（文章页）、method.html 及 {len(cases)} 个详情页")
+    print(
+        "完成: articles/index.html（两个系列入口）、systems.html、ideas.html、"
+        f"method.html 及 {len(cases)} 个详情页"
+    )
 
 
 if __name__ == "__main__":

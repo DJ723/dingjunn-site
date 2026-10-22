@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="mac-checkup：给 Agent 用的 macOS 体检流程。先查清楚，再由你决定动什么——只读扫描、逐条确认、清理走废纸篓、电源改动留回滚。" />
+  <title>mac-checkup · 项目 · Dingjun</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="detail.css" />
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="nebula nebula-a" data-depth="0.08"></div>
+    <div class="nebula nebula-b" data-depth="0.14"></div>
+    <div class="stars stars-a" data-depth="0.22"></div>
+    <div class="stars stars-b" data-depth="0.34"></div>
+    <div class="stars stars-c" data-depth="0.48"></div>
+    <div class="meteor-shower">
+      <span class="shoot shoot-1"></span><span class="shoot shoot-2"></span><span class="shoot shoot-3"></span>
+      <span class="shoot shoot-4"></span><span class="shoot shoot-5"></span><span class="shoot shoot-6"></span>
+      <span class="shoot shoot-7"></span><span class="shoot shoot-8"></span><span class="shoot shoot-9"></span>
+      <span class="shoot shoot-10"></span><span class="shoot shoot-11"></span><span class="shoot shoot-12"></span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="../index.html">Dingjun</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a class="is-active" href="../projects.html">项目</a>
+      <a href="../articles/index.html">文章</a>
+      <a href="../thoughts.html">思考</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <p class="pd-crumb"><a href="../projects.html">&larr; 项目</a></p>
+
+    <header class="page-head">
+      <p class="eyebrow">2026 · 开源 Skill / macOS</p>
+      <h1>mac-checkup</h1>
+      <p class="page-desc">电脑空间快满、睡眠耗电、想清理又怕删错东西的时候，它先帮你查清楚，再由你决定动什么。</p>
+    </header>
+
+    <p class="pd-lead">「帮我清理一下电脑」是最容易出事的一句话。模型知道 <code>du</code>，也知道 <code>rm</code>，但它不知道你的下载目录里放着一个跑了一半的项目，也不知道有些大目录删掉之后要重新授权一遍才能用。</p>
+    <p class="pd-lead">所以这个 Skill 的核心不是命令清单，而是流程和边界：只读扫描 → 出报告 → 你逐条确认 → 才动手。</p>
+
+    <section class="pd-section">
+      <h2>它帮你查四件事</h2>
+      <ul class="pd-uses">
+        <li>
+          <h3>磁盘占用与可清理项</h3>
+          <p>扫一遍常见的大块占用，给出可审阅的清理建议。你点头之后，它把允许处理的项目移进废纸篓——注意是移进废纸篓，不是直接删，随时能捞回来。</p>
+        </li>
+        <li>
+          <h3>睡眠与异常唤醒</h3>
+          <p>读取并汇总一段时间内的睡眠与唤醒记录，帮你看清机器为什么半夜会醒、为什么合盖之后还在耗电。它给的是事实和时间线，不是「帮你省电 30%」这种话。</p>
+        </li>
+        <li>
+          <h3>电池与充电习惯</h3>
+          <p>看电池状态，给电源策略建议；如果它觉得你的充电习惯值得调整，会提醒一句，可以挂一个定时提醒。设置这条路需要你自己在系统里点，它不替你改。</p>
+        </li>
+        <li>
+          <h3>后台自启项</h3>
+          <p>把开机自启和后台常驻的服务列出来，让你自己判断哪些还需要。清单本身不难，难的是不误伤系统组件。</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="pd-section">
+      <h2>安全流程是它真正的设计价值</h2>
+      <p>这四步不是文档里的建议，是流程里绕不过去的关卡。任何一步都不能跳。</p>
+      <ol class="pd-flow">
+        <li>
+          <span class="step">STEP 01</span>
+          <strong>只读扫描</strong>
+          <span class="txt">这个阶段不写任何东西，只收集信息。</span>
+        </li>
+        <li>
+          <span class="step">STEP 02</span>
+          <strong>出报告</strong>
+          <span class="txt">按固定结构输出，每条建议都带理由和影响范围。</span>
+        </li>
+        <li>
+          <span class="step">STEP 03</span>
+          <strong>你来确认</strong>
+          <span class="txt">逐条过，不要的一律不做。单批最多 10 项。</span>
+        </li>
+        <li>
+          <span class="step">STEP 04</span>
+          <strong>执行与回滚</strong>
+          <span class="txt">删除走废纸篓；电源改动前先备份，改后可回读、可回滚。</span>
+        </li>
+      </ol>
+      <p class="pd-note"><strong>绝不 <code>rm</code>：</strong>所有清理都是 <code>mv</code> 到废纸篓，误删能还原。</p>
+      <p class="pd-note"><strong>受保护路径直接拒绝：</strong>文档、桌面、照片图库、<code>.git</code>、iCloud 同步目录、应用配置，脚本层面就不处理，不是靠模型自觉。</p>
+      <p class="pd-note"><strong>电源改动必须留后路：</strong>改之前备份当前设置，改完回读一遍确认生效，最后把回滚命令交给你。</p>
+    </section>
+
+    <section class="pd-section">
+      <h2>为什么值得做成 Skill</h2>
+      <p>这些坑都不是技术难点，是踩过一次才知道的事。写进 Skill 之后，下一个用的人不用再踩一遍。</p>
+      <ul class="pd-choices">
+        <li>
+          <span class="no">01</span>
+          <div>
+            <h3>移进废纸篓不等于释放空间</h3>
+            <p>这是最反直觉的一条。文件移进废纸篓之后 <code>df</code> 的数字一点没变，还得再清空废纸篓才算真的腾出空间。报告里会把这两步分开写，避免你以为已经好了。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">02</span>
+          <div>
+            <h3>80% 充电上限没有命令行开关</h3>
+            <p>网上流传的「一行命令设置充电上限」并不成立。所以这里只做提醒，不做承诺——能给的是一句该充电了，不是一个自动生效的限制。</p>
+          </div>
+        </li>
+        <li>
+          <span class="no">03</span>
+          <div>
+            <h3>Agent 会读写，所以要给它围栏</h3>
+            <p>Skill 是交给 Agent 执行的东西，它有能力真的动文件。围栏不能只写在说明里，得落在脚本里：路径检查、批量上限、两阶段交付，都是代码执行时才生效的约束。</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="pd-section">
+      <h2>边界</h2>
+      <p class="pd-note">它不是一键优化工具。能不能清理、要不要改电源策略，最终都由你决定。</p>
+      <p class="pd-note">清理完成只代表文件进了废纸篓，磁盘空间要等你清空废纸篓之后才会变。</p>
+      <p class="pd-note">电池部分给的是状态和建议，不承诺延长寿命多少个百分点；这类数字我没法验证，就不写。</p>
+    </section>
+
+    <div class="pd-foot">
+      <ul class="tags">
+        <li>Shell</li><li>Python</li><li>launchd</li><li>Agent Skill</li>
+      </ul>
+      <p class="pd-links">
+        <a href="https://github.com/DJ723/computer_skill" rel="noopener">GitHub &rarr;</a>
+        <a href="https://github.com/DJ723/computer_skill#安装" rel="noopener">安装方法 &rarr;</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span>&copy; <span id="year"></span> Dingjun</span>
+    <a href="../projects.html">回到项目</a>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

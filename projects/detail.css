@@ -1,0 +1,256 @@
+/* 项目详情页：大图为主，说明克制；沿用 styles.css 的变量 */
+
+.pd-lead {
+  color: var(--ink);
+  font-size: 1.12rem;
+  line-height: 1.8;
+  max-width: 36em;
+  margin-bottom: 2.2rem;
+}
+
+.pd-lead + .pd-lead {
+  margin-top: -1.2rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.pd-section {
+  padding: 2.4rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.pd-section:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.pd-section > h2 {
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2.6vw, 1.65rem);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.7rem;
+}
+
+.pd-section > p {
+  color: var(--muted);
+  max-width: 40em;
+  margin-bottom: 1.2rem;
+}
+
+/* 大图 + 图注 */
+.pd-shot {
+  margin: 0 0 1.9rem;
+}
+
+.pd-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.pd-shot figcaption {
+  margin-top: 0.7rem;
+  color: var(--faint);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  max-width: 46em;
+}
+
+.pd-shot figcaption strong {
+  color: var(--muted);
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
+
+/* 主图：比正文宽，优先看清 */
+.pd-shot--lead img {
+  border-color: rgba(215, 179, 122, 0.28);
+}
+
+/* 两图并排，窄屏自动堆叠 */
+.pd-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1.9rem;
+}
+
+.pd-pair .pd-shot {
+  margin: 0;
+}
+
+@media (max-width: 780px) {
+  .pd-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 取舍：编号 + 短标题 + 说明 */
+.pd-choices {
+  list-style: none;
+  display: grid;
+  gap: 1.35rem;
+  max-width: 46em;
+}
+
+.pd-choices li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  gap: 0.4rem;
+}
+
+.pd-choices .no {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  padding-top: 0.3rem;
+}
+
+.pd-choices h3 {
+  font-family: var(--display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.pd-choices p {
+  color: var(--muted);
+  font-size: 0.97rem;
+  line-height: 1.72;
+}
+
+/* 边界提示：一条细金线，不做成告警框 */
+.pd-note {
+  border-left: 2px solid var(--accent);
+  padding: 0.15rem 0 0.15rem 1.1rem;
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.97rem;
+  line-height: 1.75;
+  max-width: 42em;
+}
+
+.pd-note:last-child {
+  margin-bottom: 0;
+}
+
+/* 安全流程：四步横排 */
+.pd-flow {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 0.4rem 0 1.6rem;
+}
+
+.pd-flow li {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.95rem 1rem;
+  background: rgba(120, 150, 200, 0.04);
+}
+
+.pd-flow .step {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.pd-flow strong {
+  display: block;
+  font-size: 0.98rem;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.pd-flow span.txt {
+  font-size: 0.86rem;
+  color: var(--faint);
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .pd-flow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* 用它能做什么：三条要点 */
+.pd-uses {
+  list-style: none;
+  display: grid;
+  gap: 1.1rem;
+  max-width: 46em;
+}
+
+.pd-uses h3 {
+  font-size: 1rem;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.pd-uses p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* 技术栈 + 链接 */
+.pd-foot {
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.4rem;
+  justify-content: space-between;
+}
+
+.pd-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+.pd-links a {
+  color: var(--accent);
+}
+
+.pd-links a:hover {
+  color: var(--accent-strong);
+}
+
+.pd-links a:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.pd-crumb {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--faint);
+  margin-bottom: 1.4rem;
+}
+
+.pd-crumb a {
+  color: var(--faint);
+}
+
+.pd-crumb a:hover {
+  color: var(--accent);
+}
